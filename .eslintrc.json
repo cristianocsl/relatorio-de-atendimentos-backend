@@ -9,6 +9,6 @@
         "ecmaVersion": "latest"
     },
     "rules": {
-        "eslint-disable": "mocha/no-mocha-arrows"
+        "eslint-disable": 0
     }
 }
