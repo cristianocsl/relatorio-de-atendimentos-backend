@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "mocha ./test/**/*$NAME*.test.js --exit --timeout 10000",
+    "test": "mocha ./test/**/*$NAME*.test.js --exit",
     "prepare": "husky install",
     "gcmsg": "git-cz",
     "start": "node index.js",
