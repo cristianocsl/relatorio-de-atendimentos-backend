@@ -3,7 +3,7 @@ const { MongoClient } = require('mongodb');
 require('dotenv').config();
 
 const MONGO_DB_URL = `mongodb://${process.env.HOST || 'mongodb'}:27017`;
-const DB_NAME = 'HomeCareDB';
+const DB_NAME = process.env.HOMECARE_DB;
 
 let db = null;
 
