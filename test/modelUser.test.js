@@ -4,7 +4,7 @@ const { MongoMemoryServer } = require('mongodb-memory-server');
 
 const { register, findUserByEmail } = require('../api/models/user');
 
-describe('Testes para registro e login:,', function () {
+describe('Testes de verificação da camada model para registro e login:,', function () {
   let connectionMock;
   
   const payload = {
