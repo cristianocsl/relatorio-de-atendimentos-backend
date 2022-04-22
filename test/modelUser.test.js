@@ -1,52 +1,48 @@
-/* eslint-disable mocha/no-mocha-arrows */
 const sinon = require('sinon');
-const { expect } = require('chai');
 const { MongoClient } = require('mongodb');
-const { getConnection } = require('./modelConnection');
+const { MongoMemoryServer } = require('mongodb-memory-server');
 
 const { register } = require('../api/models/user');
 
-describe('Quando um usuário é cadastrado,', () => {
+describe('Testes para registro e login:,', function () {
   let connectionMock;
+  
+  beforeAll(async function () {
+    const DBSERVER = await MongoMemoryServer.create();
+    const URLMock = DBSERVER.getUri();
+    connectionMock = await MongoClient
+    .connect(URLMock, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+    
+    sinon.stub(MongoClient, 'connect').resolves(connectionMock);
+  });
+
+  afterAll(function () {
+    MongoClient.connect.restore();
+  });
 
   const payload = {
-    name: 'João',
-    email: 'joaojoao@gmail.com',
+    name: 'Cristiano',
+    email: 'cslcristiano@gmail.com',
     password: '123456',
     confirmPassword: '123456',
     securityPhrase: 'meu-segredo',
   };
-
-  before(async () => {
-    connectionMock = await getConnection();
-    sinon.stub(MongoClient, 'connect').resolves(connectionMock);
-  });
-
-  after(async () => {
-    MongoClient.connect.restore();
-  });
-
-  describe('verifica que', () => {
-    it('retorna um objeto com a chave _id', async () => {
+  
+  describe('- ao realizar o cadastro', function () {
+    test('garante que um documento é inserido no banco de dados:', async function () {
+      await register({ ...payload });
+      const db = await connectionMock.db('HomeCareDB');
+      const coll = await db.collection('users');
+      const result = await coll.findOne({ name: 'Cristiano' });
+      expect(result).not.toBe(null);
+    });
+    test('garante que existe uma propriedade \'_id\'', async function () {
       const response = await register({ ...payload });
-
-      expect(response).to.have.a.property('_id');
+      const { _id: idValue } = response;
+      expect(response).toHaveProperty('_id', idValue);
     });
   });
-
-  // describe('quando ocorre algum erro no cadastro,', () => {
-  //   it('teste 1', async () => {
-  //     // const response = await register({ ...emptyField });
-  //     // expect(response).to.be.empty();
-  //   });
-  //   it('teste 2', async () => {
-
-  //   });
-  //   it('teste 3', async () => {
-
-  //   });
-  //   it('teste 4', async () => {
-
-  //   });
-  // });
 });
