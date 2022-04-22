@@ -1,15 +1,26 @@
-const { mongoClientOption } = require('./mongoClientMode');
+const { MongoClient } = require('mongodb');
 
-const client = mongoClientOption.localhost;
+require('dotenv').config();
 
-const bootStrap = async () => {
-  try {
-    client.connect();
-  } catch (err) {
-    console.log('Connection failed');
-  }
+const MONGO_DB_URL = `mongodb://${process.env.HOST || 'mongodb'}:27017`;
+const DB_NAME = 'HomeCareDB';
+
+let db = null;
+
+const OPTIONS = {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
 };
 
-bootStrap();
+const connection = () => (db
+    ? Promise.resolve(db)
+    : MongoClient.connect(MONGO_DB_URL, OPTIONS)
+    .then((conn) => {
+      db = conn.db(DB_NAME);
+      return db;
+    }).catch((err) => {
+      console.error(err.message);
+      process.exit(1);
+    }));
 
-module.exports = { client };
+    module.exports = connection;
