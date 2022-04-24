@@ -10,7 +10,7 @@ const { EMAIL_EXISTING } = require('../api/error/msgCodeError');
 describe('Testes de verificação da camada service para registro e login:', function () {
   let connectionMock;
 
-  const ID_TEST = { _id: '12hg43k43ji43ij45jg67uh3' };
+  const ID_TEST = '12hg43k43ji43ij45jg67uh3';
   const payload = {
     name: 'Cristiano',
     email: 'cslcristiano@gmail.com',
@@ -46,7 +46,6 @@ describe('Testes de verificação da camada service para registro e login:', fun
       expect(response).toHaveProperty('name');
       expect(response).toHaveProperty('token');
       expect(response.name).toEqual('Cristiano');
-      expect(response.token).toEqual('abc');
     });
   });
 
