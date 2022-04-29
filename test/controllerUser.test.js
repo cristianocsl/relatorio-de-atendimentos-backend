@@ -3,6 +3,8 @@ const { BAD_REQUEST, CREATED } = require('http-status-codes').StatusCodes;
 const { MongoClient } = require('mongodb');
 const { MongoMemoryServer } = require('mongodb-memory-server');
 
+const writeSuccessMsg = require('../api/services/utilities/successMsg');
+
 const RegisterModel = require('../api/models/user');
 const RegisterService = require('../api/services/user');
 const registerController = require('../api/controllers/user');
@@ -18,10 +20,6 @@ describe('Testando a camada controller do usuário', function () {
     password: '123456',
     securityPhrase: 'meu-segredo',
   };
-
-  function writeSuccessMsg(name) {
-    return { message: `Parabéns, ${name}! Seu cadastro foi realizado com sucesso!` };
-  }
 
   beforeAll(async function () {
     const DBSERVER = await MongoMemoryServer.create();
