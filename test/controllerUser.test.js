@@ -1,5 +1,5 @@
 const sinon = require('sinon');
-const { BAD_REQUEST } = require('http-status-codes').StatusCodes;
+const { BAD_REQUEST, CREATED } = require('http-status-codes').StatusCodes;
 const { MongoClient } = require('mongodb');
 const { MongoMemoryServer } = require('mongodb-memory-server');
 
@@ -11,6 +11,13 @@ describe('Testando a camada controller do usuário', function () {
   let connectionMock;
 
   const ID_TEST = '12hg43k43ji43ij45jg67uh3';
+  
+  const BODY = {
+    name: 'Cristiano',
+    email: 'cslcristiano@gmail.com',
+    password: '123456',
+    securityPhrase: 'meu-segredo',
+  };  
 
   beforeAll(async function () {
     const DBSERVER = await MongoMemoryServer.create();
@@ -48,6 +55,24 @@ describe('Testando a camada controller do usuário', function () {
       await registerController.register(request, response);
 
       expect(response.status.calledWith(BAD_REQUEST)).toBe(true);
+    });
+  });
+
+  describe('- ao realizar o cadastro com sucesso', function () {
+    const request = {};
+    const response = {};
+
+    beforeAll(function () {
+      request.body = { ...BODY };
+
+      response.status = sinon.stub().returns(response);
+      response.json = sinon.stub().returns();
+    });
+
+    test('retorna resposta com status 201', async function () {
+      await registerController.register(request, response);
+
+      expect(response.status.calledWith(CREATED)).toBe(true);
     });
   });
 });
