@@ -17,7 +17,11 @@ describe('Testando a camada controller do usuário', function () {
     email: 'cslcristiano@gmail.com',
     password: '123456',
     securityPhrase: 'meu-segredo',
-  };  
+  };
+
+  function writeSuccessMsg(name) {
+    return { message: `Parabéns, ${name}! Seu cadastro foi realizado com sucesso!` };
+  }
 
   beforeAll(async function () {
     const DBSERVER = await MongoMemoryServer.create();
@@ -73,6 +77,12 @@ describe('Testando a camada controller do usuário', function () {
       await registerController.register(request, response);
 
       expect(response.status.calledWith(CREATED)).toBe(true);
+    });
+
+    test('retorna mensagem de sucesso', async function () {
+      await registerController.register(request, response);
+
+      expect(response.json.calledWith(writeSuccessMsg(BODY.name))).toBe(true);
     });
   });
 });
