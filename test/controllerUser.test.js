@@ -45,15 +45,13 @@ describe('Testando a camada controller do usuário', function () {
   describe('- ao chamar o controller de create com payload inválido:', function () {
     const request = {};
     const response = {};
-
-    beforeAll(function () {
+    
+    test('retorna resposta com status 400', async function () {
       request.body = {};
-
+  
       response.status = sinon.stub().returns(response);
       response.json = sinon.stub().returns();
-    });
 
-    test('retorna resposta com status 400', async function () {
       await registerController.register(request, response);
 
       expect(response.status.calledWith(BAD_REQUEST)).toBe(true);
