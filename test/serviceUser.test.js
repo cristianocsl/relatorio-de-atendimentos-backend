@@ -57,7 +57,6 @@ describe('Testes de verificação da camada service para registro e login:', fun
       expect(response).toHaveProperty('code');
       expect(response.code).toEqual(EMAIL_EXISTING.code);
       expect(response.message).toEqual(EMAIL_EXISTING.message);
-      console.log(response);
     });
   });
 });
