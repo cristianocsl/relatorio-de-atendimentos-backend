@@ -51,7 +51,6 @@ describe('Testes de verificação da camada service para registro e login:', fun
 
   describe('- ao realizar um cadastro com um email que já existe no banco de dados', function () {
     test('retorna um código e uma mensagem de erro', async function () {
-      await RegisterModel.findUserByEmail('cslcristiano@gmail.com');
       const response = await RegisterService.register(payload);
       expect(response).toHaveProperty('code');
       expect(response).toHaveProperty('code');
