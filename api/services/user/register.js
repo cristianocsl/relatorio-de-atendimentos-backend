@@ -1,7 +1,7 @@
 const { register: create, findUserByEmail } = require('../../models/user');
 const { encryptor } = require('../utilities/bcryptFunction');
 const { tokenGenerator } = require('../utilities/tokenGenerator');
-const { ApiError } = require('../../error/apiError');
+const ApiError = require('../../error/apiError');
 const { EMAIL_EXISTING } = require('../../error/msgCodeError');
 
 const register = async ({ name, email, password, securityPhrase }) => {
