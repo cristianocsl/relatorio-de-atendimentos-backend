@@ -2,15 +2,15 @@ const sinon = require('sinon');
 const { MongoClient } = require('mongodb');
 const { MongoMemoryServer } = require('mongodb-memory-server');
 
-const RegisterModel = require('../api/models/user');
+// const RegisterModel = require('../api/models/user');
 const RegisterService = require('../api/services/user');
-const { ApiError } = require('../api/error/apiError');
+const ApiError = require('../api/error/apiError');
 const { EMAIL_EXISTING } = require('../api/error/msgCodeError');
 
 describe('Testes de verificação da camada service para registro e login:', function () {
   let connectionMock;
 
-  const ID_TEST = '12hg43k43ji43ij45jg67uh3';
+  // const ID_TEST = '12hg43k43ji43ij45jg67uh3';
   const payload = {
     name: 'Cristiano',
     email: 'cslcristiano@gmail.com',
@@ -28,19 +28,19 @@ describe('Testes de verificação da camada service para registro e login:', fun
     });
     
     sinon.stub(MongoClient, 'connect').resolves(connectionMock);
-    sinon.stub(RegisterModel, 'register').resolves(ID_TEST);
-    sinon.stub(RegisterModel, 'findUserByEmail').resolves('outroemail@gmail.com');
+    // sinon.stub(RegisterModel, 'register');
+    // sinon.stub(RegisterModel, 'findUserByEmail');
     sinon.stub(ApiError, 'SendToErrorMiddleware').resolves(EMAIL_EXISTING);
   });
 
   afterAll(function () {
-    RegisterModel.register.restore();
-    RegisterModel.findUserByEmail.restore();
-    ApiError.SendToErrorMiddleware.restore();
+    // RegisterModel.register.restore();
+    // RegisterModel.findUserByEmail.restore();
+    // ApiError.SendToErrorMiddleware.restore();
   });
 
-  describe('- ao realizar o cadastro', function () {
-    test('verifica o funcionamento do método register', async function () {
+  describe('- ao realizar o cadastro verifica que o método register', function () {
+    test('retorna o nome do usuário em caso de sucesso!', async function () {
       const response = await RegisterService.register(payload);
 
       expect(response).toHaveProperty('name');
@@ -53,7 +53,7 @@ describe('Testes de verificação da camada service para registro e login:', fun
     test('retorna um código e uma mensagem de erro', async function () {
       const response = await RegisterService.register(payload);
       expect(response).toHaveProperty('code');
-      expect(response).toHaveProperty('code');
+      expect(response).toHaveProperty('message');
       expect(response.code).toEqual(EMAIL_EXISTING.code);
       expect(response.message).toEqual(EMAIL_EXISTING.message);
     });
