@@ -48,7 +48,8 @@
     "lint-staged": "^12.3.8",
     "mongodb-memory-server": "^8.4.1",
     "nodemon": "^2.0.15",
-    "sinon": "^13.0.1"
+    "sinon": "^13.0.1",
+    "supertest": "^6.2.3"
   },
   "dependencies": {
     "bcrypt": "^5.0.1",
