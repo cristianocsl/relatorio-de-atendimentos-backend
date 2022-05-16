@@ -5,14 +5,10 @@ const { MongoMemoryServer } = require('mongodb-memory-server');
 
 const writeSuccessMsg = require('../api/services/utilities/successMsg');
 
-// const RegisterModel = require('../api/models/user');
-// const RegisterService = require('../api/services/user');
 const registerController = require('../api/controllers/user');
 
 describe('Testando a camada controller do usuário', function () {
   let connectionMock;
-
-  // const ID_TEST = '12hg43k43ji43ij45jg67uh3';
   
   const BODY = {
     name: 'Cristiano',
@@ -31,15 +27,6 @@ describe('Testando a camada controller do usuário', function () {
     });
     
     sinon.stub(MongoClient, 'connect').resolves(connectionMock);
-    // sinon.stub(RegisterModel, 'register').resolves(ID_TEST);
-    // sinon.stub(RegisterModel, 'findUserByEmail').resolves('outroemail@gmail.com');
-    // sinon.stub(RegisterService, 'register').resolves(false);
-  });
-
-  afterAll(function () {
-    // RegisterModel.register.restore();
-    // RegisterModel.findUserByEmail.restore();
-    // RegisterService.register.restore();
   });
 
   describe('- ao chamar o controller de create com payload inválido:', function () {
