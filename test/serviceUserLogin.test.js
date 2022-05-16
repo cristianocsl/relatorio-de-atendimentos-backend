@@ -20,7 +20,7 @@ describe('Testes de verificação da camada service para registro e login:', fun
     });
     
     sinon.stub(MongoClient, 'connect').returns(connectionMock);
-    sinon.stub(ApiError, 'SendToErrorMiddleware')
+    sinon.stub(ApiError, 'SendToErrorMiddleware') 
       .onCall(0)
         .resolves(USER_DOES_NOT_EXIST)
       .onCall(1)
