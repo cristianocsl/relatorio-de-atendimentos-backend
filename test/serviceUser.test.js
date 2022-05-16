@@ -2,7 +2,6 @@ const sinon = require('sinon');
 const { MongoClient } = require('mongodb');
 const { MongoMemoryServer } = require('mongodb-memory-server');
 
-// const RegisterModel = require('../api/models/user');
 const RegisterService = require('../api/services/user');
 const ApiError = require('../api/error/apiError');
 const { EMAIL_EXISTING } = require('../api/error/msgCodeError');
@@ -10,7 +9,6 @@ const { EMAIL_EXISTING } = require('../api/error/msgCodeError');
 describe('Testes de verificação da camada service para registro e login:', function () {
   let connectionMock;
 
-  // const ID_TEST = '12hg43k43ji43ij45jg67uh3';
   const payload = {
     name: 'Cristiano',
     email: 'cslcristiano@gmail.com',
@@ -28,15 +26,7 @@ describe('Testes de verificação da camada service para registro e login:', fun
     });
     
     sinon.stub(MongoClient, 'connect').resolves(connectionMock);
-    // sinon.stub(RegisterModel, 'register');
-    // sinon.stub(RegisterModel, 'findUserByEmail');
     sinon.stub(ApiError, 'SendToErrorMiddleware').resolves(EMAIL_EXISTING);
-  });
-
-  afterAll(function () {
-    // RegisterModel.register.restore();
-    // RegisterModel.findUserByEmail.restore();
-    // ApiError.SendToErrorMiddleware.restore();
   });
 
   describe('- ao realizar o cadastro verifica que o método register', function () {
