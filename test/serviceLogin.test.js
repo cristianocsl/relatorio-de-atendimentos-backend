@@ -7,7 +7,7 @@ const { MongoMemoryServer } = require('mongodb-memory-server');
 const RegisterModel = require('../api/models/user');
 const RegisterService = require('../api/services/user');
 
-describe('Testes de verificação da camada service para registro e login:', function () {
+describe('Testes de verificação da camada service para login:', function () {
   let connectionMock;
 
   beforeAll(async function () {

@@ -7,7 +7,7 @@ const RegisterService = require('../api/services/user');
 const ApiError = require('../api/error/apiError');
 const { USER_DOES_NOT_EXIST, INCORRECT_LOGIN } = require('../api/error/msgCodeError');
 
-describe('Testes de verificação da camada service para registro e login:', function () {
+describe('Testes de verificação da camada service para login:', function () {
   let connectionMock;
 
   beforeAll(async function () {
