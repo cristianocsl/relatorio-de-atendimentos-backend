@@ -5,7 +5,7 @@ const { MongoMemoryServer } = require('mongodb-memory-server');
 const RegisterModel = require('../api/models/user');
 const RegisterService = require('../api/services/user');
 const ApiError = require('../api/error/apiError');
-const { USER_DOES_NOT_EXIST, INCORRECT_LOGIN } = require('../api/error/msgCodeError');
+const { USER_DOES_NOT_EXIST, INCORRECT_PASSWORD } = require('../api/error/msgCodeError');
 
 describe('Testes de verificação da camada service para login:', function () {
   let connectionMock;
@@ -24,7 +24,7 @@ describe('Testes de verificação da camada service para login:', function () {
       .onCall(0)
         .resolves(USER_DOES_NOT_EXIST)
       .onCall(1)
-        .resolves(INCORRECT_LOGIN);
+        .resolves(INCORRECT_PASSWORD);
     
     await RegisterModel.register({
       name: 'Cristiano',
@@ -62,8 +62,8 @@ describe('Testes de verificação da camada service para login:', function () {
       
       expect(response).toHaveProperty('code');
       expect(response).toHaveProperty('message');
-      expect(response.code).toEqual(INCORRECT_LOGIN.code);
-      expect(response.message).toEqual(INCORRECT_LOGIN.message);
+      expect(response.code).toEqual(INCORRECT_PASSWORD.code);
+      expect(response.message).toEqual(INCORRECT_PASSWORD.message);
     });
   });
 });
