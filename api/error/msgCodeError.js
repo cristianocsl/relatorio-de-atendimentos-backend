@@ -3,7 +3,7 @@ const {
   CONFLICT,
   UNAUTHORIZED, NOT_FOUND } = require('http-status-codes').StatusCodes;
 
-  const INCORRECT_LOGIN = { code: BAD_REQUEST, message: 'Senha incorreta!' };
+  const INCORRECT_PASSWORD = { code: BAD_REQUEST, message: 'Senha incorreta!' };
   
   const EMAIL_EXISTING = { code: CONFLICT, message: 'Usuário já registrado!' };
   
@@ -20,7 +20,7 @@ const {
   const INVALID_ID_LENGTH = { code: BAD_REQUEST, message: 'Mongodb id must be 24 characters' };
 
 module.exports = {
-  INCORRECT_LOGIN,
+  INCORRECT_PASSWORD,
   EMAIL_EXISTING,
   TOKEN_NOT_FOUND,
   INVALID_TOKEN,
