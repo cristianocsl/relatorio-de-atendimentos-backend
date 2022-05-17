@@ -7,7 +7,7 @@ const writeSuccessMsg = require('../api/services/utilities/successMsg');
 
 const registerController = require('../api/controllers/user');
 
-describe('Testando a camada controller para registro de usuário', function () {
+describe('Testando a camada controller para registro e login de usuário', function () {
   let connectionMock;
   
   const BODY = {
@@ -29,7 +29,7 @@ describe('Testando a camada controller para registro de usuário', function () {
     sinon.stub(MongoClient, 'connect').resolves(connectionMock);
   });
 
-  describe('- ao chamar o controller de create com payload inválido:', function () {
+  describe('- Register: ao chamar o controller de create com payload inválido:', function () {
     const request = {};
     const response = {};
     
@@ -45,7 +45,7 @@ describe('Testando a camada controller para registro de usuário', function () {
     });
   });
 
-  describe('- ao realizar o cadastro com sucesso', function () {
+  describe('- Register: ao realizar o cadastro com sucesso', function () {
     const request = {};
     const response = {};
 
