@@ -35,7 +35,7 @@ describe('Testes de verificação da camada model para registro e login:,', func
     await register({ ...payload });
   });
   
-  describe('- ao realizar o cadastro', function () {
+  describe('- Register: ao realizar o cadastro', function () {
     test('garante que um documento é inserido no banco de dados:', async function () {
       const db = await connectionMock.db('HomeCareDB');
       const coll = await db.collection('users');
@@ -52,13 +52,14 @@ describe('Testes de verificação da camada model para registro e login:,', func
     });
   });
 
-  describe('- ao realizar o login, o método findUserByEmail', function () {
+  describe('- Register: ao buscar usuário no BD, o método findUserByEmail', function () {
     test('retorna os dados do usuário, se ele existir no banco de dados', async function () {
-      const response = await findUserByEmail('cslcristiano@gmail.com');
+      const response = await findUserByEmail(payload.email);
 
       expect(response.email).toStrictEqual(payload.email);
       expect(response.name).toStrictEqual(payload.name);
     });
+    
     test('retorna null, caso o usuário não seja encontrado no banco de dados', async function () {
       const response = await findUserByEmail('email_nao_existente@gmail.com');
       expect(response).toBe(null);

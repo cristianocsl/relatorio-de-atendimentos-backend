@@ -7,7 +7,7 @@ const writeSuccessMsg = require('../api/services/utilities/successMsg');
 
 const registerController = require('../api/controllers/user');
 
-describe('Testando a camada controller do usuário', function () {
+describe('Testando a camada controller para registro de usuário', function () {
   let connectionMock;
   
   const BODY = {
