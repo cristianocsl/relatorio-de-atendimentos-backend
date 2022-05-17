@@ -6,7 +6,7 @@ const RegisterService = require('../api/services/user');
 const ApiError = require('../api/error/apiError');
 const { EMAIL_EXISTING } = require('../api/error/msgCodeError');
 
-describe('Testes de verificação da camada service para registro e login:', function () {
+describe('Testes de verificação da camada service para registro:', function () {
   let connectionMock;
 
   const payload = {
