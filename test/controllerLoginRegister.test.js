@@ -1,11 +1,12 @@
 const sinon = require('sinon');
-const { BAD_REQUEST, CREATED } = require('http-status-codes').StatusCodes;
+const { BAD_REQUEST, CREATED, OK } = require('http-status-codes').StatusCodes;
 const { MongoClient } = require('mongodb');
 const { MongoMemoryServer } = require('mongodb-memory-server');
 
 const writeSuccessMsg = require('../api/services/utilities/successMsg');
 
 const registerController = require('../api/controllers/user');
+const loginController = require('../api/controllers/user');
 
 describe('Testando a camada controller para registro e login de usuário', function () {
   let connectionMock;
@@ -15,6 +16,11 @@ describe('Testando a camada controller para registro e login de usuário', funct
     email: 'cslcristiano@gmail.com',
     password: '123456',
     securityPhrase: 'meu-segredo',
+  };
+
+  const payload = {
+    email: 'cslcristiano@gmail.com',
+    password: '123456',
   };
 
   beforeAll(async function () {
@@ -66,6 +72,31 @@ describe('Testando a camada controller para registro e login de usuário', funct
       await registerController.register(request, response);
 
       expect(response.json.calledWith(writeSuccessMsg(BODY.name))).toBe(true);
+    });
+  });
+
+  describe('- Login: ao realizar o login com sucesso', function () {
+    const request = {};
+    const response = {};
+
+    beforeAll(function () {
+      request.body = { ...payload };
+
+      response.status = sinon.stub().returns(response);
+      response.json = sinon.stub().returns();
+    });
+
+    test('retorna resposta com status 200', async function () {
+      await loginController.register(request, response);
+
+      expect(response.status.calledWith(OK)).toBe(true);
+    });
+
+    test('retorna as propriedades name e token', async function () {
+      await loginController.register(request, response);
+
+      expect(response.json).toHaveProperty('name');
+      expect(response.json).toHaveProperty('token');
     });
   });
 });
