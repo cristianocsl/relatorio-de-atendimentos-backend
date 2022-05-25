@@ -2,9 +2,9 @@ const express = require('express');
 const register = require('./register');
 const login = require('./login');
 
-const routerRegister = express.Router({ mergeParams: true });
+const routerUser = express.Router({ mergeParams: true });
 
-routerRegister.post('/register', register); 
-routerRegister.post('/login', login);
+routerUser.post('/register', register); 
+routerUser.post('/login', login);
 
-module.exports = routerRegister;
+module.exports = routerUser;
