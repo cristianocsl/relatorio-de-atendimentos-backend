@@ -1,9 +1,9 @@
 const express = require('express');
 
-const routerRegister = require('./user/router');
+const userRouter = require('./user/router');
 
 const root = express.Router({ mergeParams: true });
 
-root.use('/', routerRegister);
+root.use('/', userRouter);
 
 module.exports = root;
