@@ -19,5 +19,5 @@ module.exports.registerPatient = async (payload) => {
   };
   await register(newPayload);
 
-  return newPayload;
+  return { ...newPayload, message: 'Paciente cadastrado com sucesso!' };
 };
