@@ -39,7 +39,7 @@ describe('Testes de verificação da camada model para registro de pacientes', f
     });
     
     sinon.stub(MongoClient, 'connect').resolves(connectionMock);
-    response = await model.registerUser({ ...payload });
+    response = await model.registerPacient({ ...payload });
   });
   
   afterAll(function () {
