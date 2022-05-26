@@ -2,7 +2,7 @@ const sinon = require('sinon');
 const { MongoClient } = require('mongodb');
 const { MongoMemoryServer } = require('mongodb-memory-server');
 
-const { register } = require('../api/models/patient');
+const model = require('../api/models/patient');
 
 describe('Testes de verificação da camada model para registro de pacientes', function () {
   let connectionMock;
@@ -10,6 +10,7 @@ describe('Testes de verificação da camada model para registro de pacientes', f
   
   const payload = {
     patient: 'Maria',
+    days: [1, 4],
     serviceGoal: {
       weekly: 3,
       monthly: 12,
@@ -38,7 +39,7 @@ describe('Testes de verificação da camada model para registro de pacientes', f
     });
     
     sinon.stub(MongoClient, 'connect').resolves(connectionMock);
-    response = await register({ ...payload });
+    response = await model.registerUser({ ...payload });
   });
   
   afterAll(function () {
