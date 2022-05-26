@@ -69,5 +69,9 @@ describe('Testes de verificação da camada service para registro de paciente:',
     test('retorna a chave "evolution"', async function () {
       expect(response).toHaveProperty('evolution');
     });
+    test('retorna a chave "message" com mensagem de sucesso', async function () {
+      expect(response).toHaveProperty('message');
+      expect(response.message).toEqual('Paciente cadastrado com sucesso!');
+    });
   });
 });
