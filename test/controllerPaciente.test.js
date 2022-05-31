@@ -5,6 +5,7 @@ const { MongoMemoryServer } = require('mongodb-memory-server');
 const auth = require('../api/middlewares/auth');
 
 const controller = require('../api/controllers/patient');
+const { EMPTY_BODY } = require('../api/error/msgCodeError');
 
 describe('Testando a camada controller para registro e login de usuário', function () {
   let connectionMock;
@@ -58,6 +59,20 @@ describe('Testando a camada controller para registro e login de usuário', funct
       request.body = {};
       expect(response.status.calledWith(BAD_REQUEST)).toBe(true);
     });
+
+    test(
+      'retorna uma chave "message" com uma mensagem de erro, se o body for vazio',
+      async function () {
+      const spy = sinon.spy();
+      spy(EMPTY_BODY);
+
+      sinon.assert.calledWith(spy,
+        sinon.match.has(
+          'message',
+          'Não é possível cadastrar um usuário com campos vazios!',
+          ));
+      },
+    );
   });
 
   describe('- Registro: ao realizar o cadastro com sucesso', function () {
