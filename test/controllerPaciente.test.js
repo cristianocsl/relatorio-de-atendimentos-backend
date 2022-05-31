@@ -50,7 +50,7 @@ describe('Testando a camada controller para registro e login de usuário', funct
     response.status = sinon.stub().returns(response);
     response.json = sinon.stub().returns();
 
-    request.user = { _id: '6282d5893854824c30bfe84f' };
+    request.user = { ...authPayload };
     await controller.registerPatient(request, response);
   });
 
@@ -76,16 +76,9 @@ describe('Testando a camada controller para registro e login de usuário', funct
   });
 
   describe('- Registro: ao realizar o cadastro com sucesso', function () {
-    beforeAll(async function () {
+    test('retorna resposta com status 201', async function () {
       request.body = { ...payload };
       await controller.registerPatient(request, response);
-    });
-
-    afterAll(function () {
-      request.body = {};
-    });
-    
-    test('retorna resposta com status 201', async function () {
       expect(response.status.calledWith(CREATED)).toBe(true);
     });
   });
