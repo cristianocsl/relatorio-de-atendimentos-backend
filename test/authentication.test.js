@@ -50,7 +50,6 @@ describe('Teste da função authentication', function () {
     response = {};
     const next = () => {};
     const result = await authentication(request, response, next);
-    console.log('result 1 ', result);
     expect(result.code).toEqual(401);
     expect(result.message).toEqual('Token não encontrado!');
   });
