@@ -1,4 +1,4 @@
-const { registerPacient: register } = require('../../models/patient');
+const { registerPatient: register } = require('../../models/patient');
 
 module.exports.registerPatient = async (payload) => {
   const {
