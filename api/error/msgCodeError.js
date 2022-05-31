@@ -7,6 +7,9 @@ const {
   
   const EMAIL_EXISTING = { code: CONFLICT, message: 'Usuário já registrado!' };
   
+  const EMPTY_BODY = {
+      code: BAD_REQUEST, message: 'Não é possível cadastrar um usuário com campos vazios!' };
+  
   const TOKEN_NOT_FOUND = { code: UNAUTHORIZED, message: 'Token não encontrado!' };
   
   const INVALID_TOKEN = { code: UNAUTHORIZED, message: 'Token inválido ou expirado!' };
@@ -27,4 +30,5 @@ module.exports = {
   USER_DOES_NOT_EXIST,
   UNAUTHORIZED_USER,
   INVALID_ID_LENGTH,
+  EMPTY_BODY,
 };
