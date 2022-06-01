@@ -10,6 +10,7 @@ describe('Testes de verificação da camada model para registro de pacientes', f
   
   const payload = {
     patient: 'Maria',
+    neighborhood: 'Farol',
     days: [1, 4],
     serviceGoal: {
       weekly: 3,
