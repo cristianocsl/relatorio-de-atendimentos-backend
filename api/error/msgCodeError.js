@@ -22,6 +22,8 @@ const {
 
   const INVALID_ID_LENGTH = { code: BAD_REQUEST, message: 'Mongodb id must be 24 characters' };
 
+  const EXISTING_PATIENT = { code: CONFLICT, message: 'Paciente já cadastrado!' };
+
 module.exports = {
   INCORRECT_PASSWORD,
   EMAIL_EXISTING,
@@ -31,4 +33,5 @@ module.exports = {
   UNAUTHORIZED_USER,
   INVALID_ID_LENGTH,
   EMPTY_BODY,
+  EXISTING_PATIENT,
 };
