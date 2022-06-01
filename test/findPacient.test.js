@@ -4,7 +4,7 @@ const sinon = require('sinon');
 const { MongoClient } = require('mongodb');
 const { MongoMemoryServer } = require('mongodb-memory-server');
 
-const { findPatient } = require('../api/models/patient/findPatient');
+const { findPatient } = require('../api/models/patient');
 const app = require('../server');
 const RegisterModel = require('../api/models/user');
 
