@@ -10,6 +10,7 @@ describe('Testes de verificação da camada service para registro de paciente:',
 
   const payload = {
     patient: 'Maria',
+    neighborhood: 'Farol',
     days: [1, 4],
     serviceGoal: {
       weekly: 3,
@@ -68,6 +69,9 @@ describe('Testes de verificação da camada service para registro de paciente:',
     });
     test('retorna a chave "evolution"', async function () {
       expect(response).toHaveProperty('evolution');
+    });
+    test('retorna a chave "neighborhood"', async function () {
+      expect(response).toHaveProperty('neighborhood');
     });
     test('retorna a chave "message" com mensagem de sucesso', async function () {
       expect(response).toHaveProperty('message');
