@@ -2,7 +2,7 @@ const ApiError = require('../../error/apiError');
 const { EXISTING_PATIENT } = require('../../error/msgCodeError');
 
 const { registerPatient: register } = require('../../models/patient');
-const { findPatient } = require('../../models/patient/findPatient');
+const { findPatient } = require('../../models/patient');
 
 const newPayload = ({ 
     payload, weekly, weeklyDone, monthly, monthlyDone, prevTotalPrice, doneTotalPrice,

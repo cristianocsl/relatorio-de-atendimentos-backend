@@ -1,7 +1,9 @@
-const connection = require('../connection');
+const { findPatient } = require('./findPatient');
+const { registerPatient } = require('./registerPatient');
+const { updatePatient } = require('./updatePatient');
 
-module.exports.registerPatient = async (patientInfos) => {
-  const db = await connection();
-  const { insertedId } = await db.collection('patients').insertOne(patientInfos);
-  return { _id: insertedId };
+module.exports = {
+  registerPatient,
+  findPatient,
+  updatePatient,
 };
