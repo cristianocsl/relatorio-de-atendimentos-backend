@@ -34,8 +34,11 @@ describe('Testes de verificação da camada service para registro:', function ()
       const response = await RegisterService.register(payload);
 
       expect(response).toHaveProperty('name');
-      expect(response).toHaveProperty('token');
+      expect(response).toHaveProperty('email');
+      expect(response).toHaveProperty('userId');
+      expect(response).toHaveProperty('message');
       expect(response.name).toEqual('Cristiano');
+      expect(response.message).toEqual('Usuário cadastrado com sucesso!');
     });
   });
 
