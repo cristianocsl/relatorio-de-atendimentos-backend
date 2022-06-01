@@ -12,6 +12,7 @@ describe('Testando a camada controller para registro e login de usuário', funct
   
   const payload = {
     patient: 'Maria',
+    neighborhood: 'Farol',
     days: [1, 4],
     serviceGoal: {
       weekly: 3,
