@@ -17,7 +17,8 @@ const newPayload = ({
   });
 
 module.exports.registerPatient = async (payload) => {
-  const patient = await findPatient({ ...payload });
+  const patient = await findPatient({
+      patient: payload.patient, neighborhood: payload.neighborhood });
 
   if (patient) return ApiError.SendToErrorMiddleware(EXISTING_PATIENT);
 
