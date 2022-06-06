@@ -1,9 +1,14 @@
 const sinon = require('sinon');
 const { MongoClient } = require('mongodb');
 const { MongoMemoryServer } = require('mongodb-memory-server');
+const { CONFLICT } = require('http-status-codes').StatusCodes;
 
 const service = require('../api/services/patient');
 const modelPatient = require('../api/models/patient');
+const ApiError = require('../api/error/apiError');
+const {
+  INEXISTING_PATIENT, USERID_DOES_NOT_MATCH, EXISTING_PATIENT,
+} = require('../api/error/msgCodeError');
 
 describe('Testes da camada service: registro e atualização de paciente:', function () {
   let connectionMock;
@@ -37,14 +42,22 @@ describe('Testes da camada service: registro e atualização de paciente:', func
     });
     
     sinon.stub(MongoClient, 'connect').resolves(connectionMock);
-    
+    sinon.stub(ApiError, 'SendToErrorMiddleware')
+      .onCall(0)
+        .resolves(INEXISTING_PATIENT)
+      .onCall(1)
+        .resolves(USERID_DOES_NOT_MATCH)
+      .onCall(2)
+        .resolves(EXISTING_PATIENT);
+
     response = await service.registerPatient(payload);
   });
 
   afterAll(async function () {
-   MongoClient.connect.restore();
+    MongoClient.connect.restore();
+    ApiError.SendToErrorMiddleware.restore();
   });
-  
+
   describe('- ao realizar o cadastro de um paciente, verifica que o método register', function () {
     test('retorna a chave "patient e nome do paciente"', async function () {
       expect(response).toHaveProperty('patient');
@@ -91,11 +104,54 @@ describe('Testes da camada service: registro e atualização de paciente:', func
       const { _id } = response;
 
       const result = await service.updatePatient(_id, {
+        ...payload,
         servicePerformed: { weekly: 1, monthly: 0 },
       });
+
       const find = await modelPatient.findPatientById(_id);
 
       expect(result.servicePerformed).toEqual(find.servicePerformed);
+    });
+  });
+  
+  describe('- casos de falha ao atualizar:', function () {
+    test('- retorna um erro se o id do paciente não existir ou for inválido', async function () {
+      const result = await service.updatePatient('a1s23d12ds32ds32ds32ds32d', {
+        servicePerformed: { weekly: 1, monthly: 0 },
+      });
+
+      expect(result).toHaveProperty('code');
+      expect(result).toHaveProperty('message');
+      expect(result.code).toEqual(INEXISTING_PATIENT.code);
+      expect(result.message).toEqual(INEXISTING_PATIENT.message);
+    });
+
+    test('- retorna erro se o userId não conferir nas informações do paciente', async function () {
+      response = {};
+      response = await service.registerPatient(
+        { ...payload, patient: 'novo paciente', userId: '6c9f9f8f9f9f9f9f9f9f9f96' },
+      );
+      
+      const { _id: validId } = response;
+      
+      const result = await service.updatePatient(validId, {
+        servicePerformed: { weekly: 1, monthly: 0 },
+      });
+      
+      expect(result).toHaveProperty('code');
+      expect(result).toHaveProperty('message');
+      expect(result.code).toEqual(USERID_DOES_NOT_MATCH.code);
+      expect(result.message).toEqual(USERID_DOES_NOT_MATCH.message);
+    });
+  });
+
+  describe('Ao cadastrar um paciente que já existe no bando de dados:', function () {
+    test('- retorna mensagem de erro e um código:', async function () {
+      const result = await service.registerPatient(payload);
+      expect(result).toHaveProperty('message');
+      expect(result).toHaveProperty('code');
+      expect(result.code).toEqual(CONFLICT);
+      expect(result.message).toEqual('Paciente já cadastrado!');
     });
   });
 });
