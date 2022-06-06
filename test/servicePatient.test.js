@@ -3,8 +3,9 @@ const { MongoClient } = require('mongodb');
 const { MongoMemoryServer } = require('mongodb-memory-server');
 
 const service = require('../api/services/patient');
+const modelPatient = require('../api/models/patient');
 
-describe('Testes de verificação da camada service para registro de paciente:', function () {
+describe('Testes da camada service: registro e atualização de paciente:', function () {
   let connectionMock;
   let response;
 
@@ -23,6 +24,7 @@ describe('Testes de verificação da camada service para registro de paciente:',
     healthInsurance: 'saude & suporte',
     unitPrice: 40.00,
     evolution: '',
+    userId: '5c9f9f8f9f9f9f9f9f9f9f93',
   };
 
   beforeAll(async function () {
@@ -35,9 +37,14 @@ describe('Testes de verificação da camada service para registro de paciente:',
     });
     
     sinon.stub(MongoClient, 'connect').resolves(connectionMock);
+    
     response = await service.registerPatient(payload);
   });
 
+  afterAll(async function () {
+   MongoClient.connect.restore();
+  });
+  
   describe('- ao realizar o cadastro de um paciente, verifica que o método register', function () {
     test('retorna a chave "patient e nome do paciente"', async function () {
       expect(response).toHaveProperty('patient');
@@ -76,6 +83,19 @@ describe('Testes de verificação da camada service para registro de paciente:',
     test('retorna a chave "message" com mensagem de sucesso', async function () {
       expect(response).toHaveProperty('message');
       expect(response.message).toEqual('Paciente cadastrado com sucesso!');
+    });
+  });
+
+  describe('- ao atualizar os dados de um paciente com sucesso:', function () {
+    test('- retorna a propriedade atualizada', async function () {
+      const { _id } = response;
+
+      const result = await service.updatePatient(_id, {
+        servicePerformed: { weekly: 1, monthly: 0 },
+      });
+      const find = await modelPatient.findPatientById(_id);
+
+      expect(result.servicePerformed).toEqual(find.servicePerformed);
     });
   });
 });
