@@ -4,6 +4,8 @@ const { MongoMemoryServer } = require('mongodb-memory-server');
 
 const service = require('../api/services/patient');
 const modelPatient = require('../api/models/patient');
+const ApiError = require('../api/error/apiError');
+const { INEXISTING_PATIENT } = require('../api/error/msgCodeError');
 
 describe('Testes da camada service: registro e atualização de paciente:', function () {
   let connectionMock;
@@ -86,8 +88,8 @@ describe('Testes da camada service: registro e atualização de paciente:', func
     });
   });
 
-  describe('- ao atualizar os dados de um paciente com sucesso:', function () {
-    test('- retorna a propriedade atualizada', async function () {
+  describe('- ao atualizar os dados de um paciente:', function () {
+    test('- retorna a propriedade atualizada a partir de um id válido', async function () {
       const { _id } = response;
 
       const result = await service.updatePatient(_id, {
@@ -96,6 +98,19 @@ describe('Testes da camada service: registro e atualização de paciente:', func
       const find = await modelPatient.findPatientById(_id);
 
       expect(result.servicePerformed).toEqual(find.servicePerformed);
+    });
+
+    test('- retorna um erro se o id do paciente não existir ou for inválido', async function () {
+      sinon.stub(ApiError, 'SendToErrorMiddleware').resolves(INEXISTING_PATIENT);
+
+      const result = await service.updatePatient('a1s23d12ds32ds32ds32ds32d', {
+        servicePerformed: { weekly: 1, monthly: 0 },
+      });
+
+      expect(result).toHaveProperty('code');
+      expect(result).toHaveProperty('message');
+      expect(result.code).toEqual(INEXISTING_PATIENT.code);
+      expect(result.message).toEqual(INEXISTING_PATIENT.message);
     });
   });
 });
