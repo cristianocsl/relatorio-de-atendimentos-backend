@@ -1,10 +1,9 @@
-const { client } = require('../connection');
+const connection = require('../connection');
 
 const register = async (userInfos) => {
-  const db = client.db('homeCareDB');
-  console.log('teste >>');
+  const db = await connection();
   const { insertedId } = await db.collection('users').insertOne(userInfos);
-  return { id: insertedId };
+  return { _id: insertedId };
 };
 
 module.exports = register;
