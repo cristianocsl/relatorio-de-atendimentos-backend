@@ -7,7 +7,7 @@ const auth = require('../api/middlewares/auth');
 const controller = require('../api/controllers/patient');
 const { EMPTY_BODY } = require('../api/error/msgCodeError');
 
-describe('Testando a camada controller para registro e login de usuário', function () {
+describe('Testes da camada controller: registro e atualização de dados de paciente.', function () {
   let connectionMock;
   
   const payload = {
