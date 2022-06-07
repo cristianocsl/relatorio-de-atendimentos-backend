@@ -96,5 +96,14 @@ describe('Testando a rota /registerPatient:', function () {
     test('- retorna statusCode 200', async function () {
       expect(response.statusCode).toBe(200);
     });
+    
+    test('- retorna as atualizações feitas', async function () {
+      const { _id, userId, ...bodyInformations } = response.body;
+      expect(bodyInformations).toStrictEqual({
+        ...payload,
+        serviceGoal: { weekly: 3, monthly: 12 },
+        servicePerformed: { weekly: 1, monthly: 0 },
+      });
+    });
   });
 });
