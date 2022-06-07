@@ -98,12 +98,16 @@ describe('Testando a rota /registerPatient:', function () {
     });
     
     test('- retorna as atualizações feitas', async function () {
-      const { _id, userId, ...bodyInformations } = response.body;
+      const { _id, userId, message, ...bodyInformations } = response.body;
       expect(bodyInformations).toStrictEqual({
         ...payload,
         serviceGoal: { weekly: 3, monthly: 12 },
         servicePerformed: { weekly: 1, monthly: 0 },
       });
+    });
+
+    test('- retorna uma mensagem de sucesso', async function () {
+      expect(response.body.message).toStrictEqual('Paciente atualizado com sucesso!');
     });
   });
 });
