@@ -1,7 +1,6 @@
 const ApiError = require('../../error/apiError');
 const { INEXISTING_PATIENT, USERID_DOES_NOT_MATCH } = require('../../error/msgCodeError');
-const { updatePatient: update } = require('../../models/patient');
-const { findPatientById } = require('../../models/patient');
+const { updatePatient: update, findPatientById } = require('../../models/patient');
 
 module.exports.updatePatient = async (patientId, payload) => {
   const patient = await findPatientById(patientId);
