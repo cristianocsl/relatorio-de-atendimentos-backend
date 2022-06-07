@@ -9,13 +9,15 @@ const RegisterModel = require('../api/models/user');
 describe('Testando a rota /registerPatient:', function () {
   let connectionMock;
   let response = {};
+  let recivedToken = {};
+  let patientId;
   
   const payload = {
     patient: 'Maria',
     days: [1, 4],
     serviceGoal: {
-      weekly: 3,
-      monthly: 12,
+      weekly: 0,
+      monthly: 0,
     },
     servicePerformed: {
       weekly: 0,
@@ -53,21 +55,46 @@ describe('Testando a rota /registerPatient:', function () {
         password: '123456',
       });
     
+    recivedToken = token;
+    
     response = await request(app)
       .post('/registerPatient')
       .send({ ...payload })
       .set('authorization', token);
-  });
-  
-  test('- retorna statusCode 201', async function () {
-    expect(response.statusCode).toBe(201);
-  });
-
-  test('- retorna um body com a propriedade "message"', async function () {
-    expect(response.body).toHaveProperty('message');
+    
+    const { _id } = response.body;
+    patientId = _id;
   });
 
-  test('- retorna uma mensagem de sucesso', async function () {
-    expect(response.body.message).toStrictEqual('Paciente cadastrado com sucesso!');
+  describe('Testando rota de registro de paciente', function () {
+    test('- retorna statusCode 201', async function () {
+      expect(response.statusCode).toBe(201);
+    });
+    
+    test('- retorna um body com a propriedade "message"', async function () {
+      expect(response.body).toHaveProperty('message');
+    });
+    
+    test('- retorna uma mensagem de sucesso', async function () {
+      expect(response.body.message).toStrictEqual('Paciente cadastrado com sucesso!');
+    });
+  });
+
+  describe('Testando rota de atualização de dados de paciente', function () {
+    beforeAll(async function () {
+      response = await request(app)
+      .put(`/patient/${patientId}`)
+      .send({
+        ...payload,
+        serviceGoal: { weekly: 3, monthly: 12 },
+        servicePerformed: { weekly: 1, monthly: 0 },
+      })
+      .set('authorization', recivedToken)
+      .set('params', { patientId });
+    });
+    
+    test('- retorna statusCode 200', async function () {
+      expect(response.statusCode).toBe(200);
+    });
   });
 });
