@@ -5,7 +5,7 @@ const request = require('supertest');
 const successMsg = require('../api/services/utilities/successMsg');
 const app = require('../server');
 
-describe('Testando a rota /register:', function () {
+describe('Testando a rota /register e a rota /login:', function () {
   let connectionMock;
   let response = {};
 
