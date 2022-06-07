@@ -7,7 +7,7 @@ const controller = require('../api/controllers/patient');
 
 const { EMPTY_BODY } = require('../api/error/msgCodeError');
 
-describe('Testes da camada controller: registro e atualização de dados de paciente.', function () {
+describe('Testes da camada controller: registro de dados de paciente.', function () {
   let connectionMock;
   
   const payload = {
