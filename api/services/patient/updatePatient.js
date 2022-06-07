@@ -6,8 +6,8 @@ const { findPatientById } = require('../../models/patient');
 module.exports.updatePatient = async (patientId, payload) => {
   const patient = await findPatientById(patientId);
   if (!patient) return ApiError.SendToErrorMiddleware(INEXISTING_PATIENT);
-  const { userId } = patient;
+  const { userId, _id } = patient;
   if (userId !== payload.userId) return ApiError.SendToErrorMiddleware(USERID_DOES_NOT_MATCH);
   await update(patientId, payload);
-  return payload;
+  return { ...payload, userId, _id };
 };
