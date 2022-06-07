@@ -5,7 +5,8 @@ module.exports.updatePatient = async (req, res) => {
   const { body, params: { patientId }, user: { _id: userId } } = req;
   try {
     const patient = await update(patientId, { ...body, userId });
-    return res.status(OK).json(patient);
+    const successMsg = { message: 'Paciente atualizado com sucesso!' };
+    return res.status(OK).json({ ...patient, ...successMsg });
   } catch (err) {
     return res.status(BAD_REQUEST).json({ message: err.message });
   }
