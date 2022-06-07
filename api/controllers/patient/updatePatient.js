@@ -2,9 +2,9 @@ const { OK, BAD_REQUEST } = require('http-status-codes').StatusCodes;
 const { updatePatient: update } = require('../../services/patient');
 
 module.exports.updatePatient = async (req, res) => {
-  const { body, params: { pacientId } } = req;
+  const { body, params: { patientId }, user: { _id: userId } } = req;
   try {
-    const patient = await update(pacientId, body);
+    const patient = await update(patientId, { ...body, userId });
     return res.status(OK).json(patient);
   } catch (err) {
     return res.status(BAD_REQUEST).json({ message: err.message });
