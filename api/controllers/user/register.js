@@ -8,6 +8,7 @@ const register = async (req, res) => {
     const user = await create(reqBody);
     return res.status(CREATED).json(writeSuccessMsg(user.name));
   } catch (error) {
+    console.error('registro de usuário > ', error.code, error.message);
     return res.status(BAD_REQUEST).json({ message: error.message });
   }
 };
