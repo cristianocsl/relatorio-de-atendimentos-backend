@@ -8,7 +8,6 @@ module.exports.updatePatient = async (req, res) => {
     const successMsg = { message: 'Paciente atualizado com sucesso!' };
     return res.status(OK).json({ ...patient, ...successMsg });
   } catch (err) {
-    console.error(err.code, err.message);
     return res.status(err.code).json({ message: err.message });
   }
 };
