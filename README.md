@@ -231,4 +231,4 @@ Casos de falha na validação da requisição terão as seguintes respostas segu
 
 ### Endpoint GET <code>/patients</code>
 
-####(... Em desenvolvimento!)
+#### ... Em desenvolvimento!
