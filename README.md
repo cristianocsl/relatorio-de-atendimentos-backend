@@ -232,3 +232,14 @@ Casos de falha na validação da requisição terão as seguintes respostas segu
 ### Endpoint GET <code>/patients</code>
 
 #### ... Em desenvolvimento!
+
+---
+
+# Autor
+
+  Cristiano Seabra de Lima
+<br />
+  Desenvolvedor WEB FullStack em constante aprendizado e entusiasta por tecnologia e sua força transformadora no mundo!
+
+  <a href="https://www.linkedin.com/in/cristianolimacsl/" target="_blank"><img src="https://img.shields.io/badge/-LinkedIn-%230077B5?style=for-the-badge&logo=linkedin&logoColor=white" target="_blank"></a>
+---
