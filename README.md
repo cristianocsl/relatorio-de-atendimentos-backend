@@ -158,6 +158,57 @@ Casos de falha na validação da requisição terão as seguintes respostas segu
 }
 ```
 
+## Atualizando dados de um paciente
 
+### Endpoint PUT <code>/registerPatient/:patientId</code>
 
+* o corpo da requisição deve ter o seguinte formato:
 
+```json
+{
+  "patient": "João",
+  "neighborhood": "Farol",
+  "days": [
+    1,
+    4
+  ],
+  "serviceGoal": {
+    "weekly": 3,
+    "monthly": 12
+  },
+  "servicePerformed": {
+    "weekly": 3,
+    "monthly": 0
+  },
+  "healthInsurance": "Home Care Saúde",
+  "unitPrice": 40,
+  "evolution": ""
+}
+```
+
+### Caso de sucesso na requisição para a rota <code>/registerPatient/:patientId</code>:
+
+```json
+{
+  "patient": "João",
+  "neighborhood": "Farol",
+  "days": [
+    1,
+    4
+  ],
+  "serviceGoal": {
+    "weekly": 3,
+    "monthly": 12
+  },
+  "servicePerformed": {
+    "weekly": 3,
+    "monthly": 0
+  },
+  "healthInsurance": "Home Care Saúde",
+  "unitPrice": 40,
+  "evolution": "",
+  "userId": "6282d5893854824c30bfe84f",
+  "_id": "629f79c96becd8d13b4ceda5",
+  "message": "Paciente atualizado com sucesso!"
+}
+```
