@@ -1,14 +1,16 @@
 const bcrypt = require('bcrypt');
-const sinon = require('sinon');
-const { MongoClient } = require('mongodb');
-const { MongoMemoryServer } = require('mongodb-memory-server');
 const request = require('supertest');
+const sinon = require('sinon');
+const { MongoClient, ObjectId } = require('mongodb');
+const { MongoMemoryServer } = require('mongodb-memory-server');
+
+const { findPatientById } = require('../api/models/patient');
 const app = require('../server');
 const RegisterModel = require('../api/models/user');
 
-describe('Testando a rota /registerPatient:', function () {
+describe('Testando a função findPatientById', function () {
   let connectionMock;
-  let response = {};
+  let response;
   
   const payload = {
     patient: 'Maria',
@@ -21,22 +23,26 @@ describe('Testando a rota /registerPatient:', function () {
       weekly: 0,
       monthly: 0,
     },
+    servicePending: {
+      weekly: 0,
+      monthly: 0,
+    },
     healthInsurance: 'saude & suporte',
     unitPrice: 40.00,
+    totalPrice: 0,
     evolution: '',
   };
-
+  
   beforeAll(async function () {
     const DBSERVER = await MongoMemoryServer.create();
     const URLMock = DBSERVER.getUri();
-    connectionMock = MongoClient
+    connectionMock = await MongoClient
       .connect(URLMock, {
         useNewUrlParser: true,
         useUnifiedTopology: true,
       });
-      
+    
     sinon.stub(MongoClient, 'connect').resolves(connectionMock);
-
     sinon.stub(bcrypt, 'compare').returns(true);
     
     await RegisterModel.register({
@@ -59,15 +65,21 @@ describe('Testando a rota /registerPatient:', function () {
       .set('authorization', token);
   });
   
-  test('- retorna statusCode 201', async function () {
-    expect(response.statusCode).toBe(201);
+  afterAll(function () {
+      MongoClient.connect.restore();
+      ObjectId.isValid.restore();
   });
+  
+  test('- retorna um paciente previamente cadastrado', async function () {
+    sinon.stub(ObjectId, 'isValid').returns(true);
 
-  test('- retorna um body com a propriedade "message"', async function () {
-    expect(response.body).toHaveProperty('message');
+    const { _id } = response.body;
+    const result = await findPatientById(_id);
+    expect(result).not.toBe(null);
   });
-
-  test('- retorna uma mensagem de sucesso', async function () {
-    expect(response.body.message).toStrictEqual('Paciente cadastrado com sucesso!');
+  
+  test('- retorna NULL se não existe paciente com o _id informado', async function () {
+    const result = await findPatientById('123456789123456789123456');
+    expect(result).toBe(null);
   });
 });

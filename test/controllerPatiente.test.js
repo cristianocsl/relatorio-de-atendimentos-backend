@@ -2,12 +2,11 @@ const sinon = require('sinon');
 const { BAD_REQUEST, CREATED } = require('http-status-codes').StatusCodes;
 const { MongoClient } = require('mongodb');
 const { MongoMemoryServer } = require('mongodb-memory-server');
-const auth = require('../api/middlewares/auth');
 
 const controller = require('../api/controllers/patient');
 const { EMPTY_BODY } = require('../api/error/msgCodeError');
 
-describe('Testando a camada controller para registro e login de usuário', function () {
+describe('Testes da camada controller: registro de dados de paciente.', function () {
   let connectionMock;
   
   const payload = {
@@ -27,12 +26,6 @@ describe('Testando a camada controller para registro e login de usuário', funct
     evolution: '',
   };
 
-  const authPayload = {
-    _id: '6282d5893854824c30bfe84f',
-    name: 'Cristiano',
-    email: 'cslcristiano@gmail.com',
-  };
-
   const request = {};
   const response = {};
   
@@ -46,41 +39,41 @@ describe('Testando a camada controller para registro e login de usuário', funct
     });
     
     sinon.stub(MongoClient, 'connect').resolves(connectionMock);
-    sinon.stub(auth, 'authentication').returns(authPayload);
 
     response.status = sinon.stub().returns(response);
     response.json = sinon.stub().returns();
 
-    request.user = { ...authPayload };
+    request.body = {};
+    request.user = {};
     await controller.registerPatient(request, response);
   });
-
+  
   describe('- Registro: ao chamar o controller de registerPatient com um body vazio:', function () {
     test('retorna resposta com status 400', async function () {
       request.body = {};
       expect(response.status.calledWith(BAD_REQUEST)).toBe(true);
     });
-
+    
     test(
       'retorna uma chave "message" com uma mensagem de erro, se o body for vazio',
       async function () {
-      const spy = sinon.spy();
-      spy(EMPTY_BODY);
-
-      sinon.assert.calledWith(spy,
-        sinon.match.has(
+        const spy = sinon.spy();
+        spy(EMPTY_BODY);
+        
+        sinon.assert.calledWith(spy,
+          sinon.match.has(
           'message',
           'Não é possível cadastrar um usuário com campos vazios!',
           ));
       },
-    );
-  });
-
-  describe('- Registro: ao realizar o cadastro com sucesso', function () {
-    test('retorna resposta com status 201', async function () {
-      request.body = { ...payload };
-      await controller.registerPatient(request, response);
-      expect(response.status.calledWith(CREATED)).toBe(true);
+      );
+    });
+    
+    describe('- Registro: ao realizar o cadastro com sucesso', function () {
+      test('retorna resposta com status 201', async function () {
+        request.body = { ...payload };
+        await controller.registerPatient(request, response);
+        expect(response.status.calledWith(CREATED)).toBe(true);
     });
   });
 });

@@ -24,6 +24,10 @@ const {
 
   const EXISTING_PATIENT = { code: CONFLICT, message: 'Paciente já cadastrado!' };
 
+  const INEXISTING_PATIENT = { code: NOT_FOUND, message: 'Paciente não encontrado!' };
+
+  const USERID_DOES_NOT_MATCH = { code: NOT_FOUND, message: 'Id do usuário não confere!' };
+
 module.exports = {
   INCORRECT_PASSWORD,
   EMAIL_EXISTING,
@@ -34,4 +38,6 @@ module.exports = {
   INVALID_ID_LENGTH,
   EMPTY_BODY,
   EXISTING_PATIENT,
+  INEXISTING_PATIENT,
+  USERID_DOES_NOT_MATCH,
 };
