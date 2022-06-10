@@ -2,7 +2,7 @@
 
 ## Contexto
 
-API (Application Programming Interface) desenvolvida em NodeJS com MongoDB e MongoDB Atlas. Utiliza arquitetura em camadas (MSC - Model Service Controllers), aplica a técnica de Test-Driven Development (TDD), e constitui parte integrante de uma aplicação fullstack com o objetivo de criar relatórios de atendimentos mensais de profissionais da área da saúde com foco em home care.
+API (Application Programming Interface) desenvolvida em NodeJS com MongoDB e MongoDB Atlas. Utiliza arquitetura em camadas (MSC - Model Service Controllers), aplica a técnica de Test-Driven Development (TDD), e constitui parte integrante de uma aplicação fullstack com o objetivo de criar relatórios de atendimentos mensais de profissionais da área da saúde com foco em home care. Nesta aplicação é possível cadastrar dados de um paciente, metas semanais e mensais de atendimentos e também atualizar dados como a quantidade de serviços prestados. Também é possível ter uma projeção financeira dos valores a serem recebidos a partir dos atendimentos realizados.
 
 ## Rotas
 
