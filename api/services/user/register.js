@@ -1,6 +1,7 @@
 const { register: create, findUser } = require('../../models/user');
 const { encryptor } = require('../utilities/bcryptFunction');
 const ApiError = require('../../error/apiError');
+const writeSuccessMsg = require('../utilities/successMsg');
 const { EMAIL_EXISTING } = require('../../error/msgCodeError');
 
 const register = async ({ name, email, password, securityPhrase }) => {
@@ -13,7 +14,7 @@ const register = async ({ name, email, password, securityPhrase }) => {
     name: `${name.split(' ')[0]}`,
     email,
     userId,
-    message: 'Usuário cadastrado com sucesso!',
+    message: writeSuccessMsg(name),
   };
 };
 
