@@ -2,7 +2,7 @@ const sinon = require('sinon');
 const { MongoClient } = require('mongodb');
 const { MongoMemoryServer } = require('mongodb-memory-server');
 
-const { register, findUserByEmail } = require('../api/models/user');
+const { register, findUser } = require('../api/models/user');
 
 describe('Testes de verificação da camada model para registro e login:,', function () {
   let connectionMock;
@@ -52,16 +52,16 @@ describe('Testes de verificação da camada model para registro e login:,', func
     });
   });
 
-  describe('- Register: ao buscar usuário no BD, o método findUserByEmail', function () {
+  describe('- Register: ao buscar usuário no BD, o método findUser', function () {
     test('retorna os dados do usuário, se ele existir no banco de dados', async function () {
-      const response = await findUserByEmail(payload.email);
+      const response = await findUser(payload.email);
 
       expect(response.email).toStrictEqual(payload.email);
       expect(response.name).toStrictEqual(payload.name);
     });
     
     test('retorna null, caso o usuário não seja encontrado no banco de dados', async function () {
-      const response = await findUserByEmail('email_nao_existente@gmail.com');
+      const response = await findUser('email_nao_existente@gmail.com');
       expect(response).toBe(null);
     });
   });
