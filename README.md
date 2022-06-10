@@ -26,3 +26,16 @@ API (Application Programming Interface) desenvolvida em NodeJS com MongoDB e Mon
   "password": "senhasenha",
 }
 ```
+
+## Login do usuário
+
+### Endpoint POST <code>/login</code>
+
+* o corpo da requisição deve ter o seguinte formato:
+
+```json
+{
+  "email": "email@exemplo.com",
+  "password": "senhasenha",
+}
+```
