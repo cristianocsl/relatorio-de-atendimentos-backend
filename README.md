@@ -206,3 +206,21 @@ Casos de falha na validação da requisição terão as seguintes respostas segu
   "message": "Paciente atualizado com sucesso!"
 }
 ```
+
+Casos de falha na validação da requisição terão as seguintes respostas seguindo a estrutura abaixo:
+
+<strong>Não é possível atualizar dados de um paciente se ele não está cadastrado no banco de dados:</strong>
+```json
+{
+  "code": 404,
+  "message": "Paciente não encontrado!"
+}
+```
+
+<strong>Não é possível atualizar dados de um paciente se o _id do profissional não está presente nos dados de um paciente no banco de dados:</strong>
+```json
+{
+  "code": 404,
+  "message": "Id do usuário não confere!"
+}
+```
