@@ -226,3 +226,9 @@ Casos de falha na validação da requisição terão as seguintes respostas segu
   "message": "Id do usuário não confere!"
 }
 ```
+
+## Visualizando pacientes cadastrados
+
+### Endpoint GET <code>/patients</code>
+
+####(... Em desenvolvimento!)
