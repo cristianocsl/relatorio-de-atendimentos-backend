@@ -5,7 +5,6 @@ const { MongoMemoryServer } = require('mongodb-memory-server');
 
 const { USER_DOES_NOT_EXIST, INCORRECT_PASSWORD } = require('../api/error/msgCodeError');
 
-const writeSuccessMsg = require('../api/services/utilities/successMsg');
 const controller = require('../api/controllers/user');
 
 describe('Testando a camada controller para registro e login de usuário', function () {
@@ -46,21 +45,10 @@ describe('Testando a camada controller para registro e login de usuário', funct
   });
 
   describe('- Register: ao realizar o cadastro com sucesso', function () {
-    beforeAll(async function () {
+    test('retorna resposta com status 201', async function () {
       request.body = { ...payload };
       await controller.register(request, response);
-    });
-
-    afterAll(function () {
-      request.body = {};
-    });
-    
-    test('retorna resposta com status 201', async function () {
       expect(response.status.calledWith(CREATED)).toBe(true);
-    });
-
-    test('retorna mensagem de sucesso', async function () {
-      expect(response.json.calledWith(writeSuccessMsg(payload.name))).toBe(true);
     });
   });
   

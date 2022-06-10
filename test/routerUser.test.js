@@ -42,7 +42,7 @@ describe('Testando a rota /register e a rota /login:', function () {
     });
     
     test('retorna uma mensagem de sucesso', async function () {
-      expect({ message: response.body.message }).toStrictEqual(successMsg('Cristiano'));
+      expect(response.body.message).toEqual(successMsg('Cristiano'));
     });
   });
 
