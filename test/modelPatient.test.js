@@ -3,7 +3,10 @@ const sinon = require('sinon');
 const { MongoClient } = require('mongodb');
 const { MongoMemoryServer } = require('mongodb-memory-server');
 
-const { updatePatient, registerPatient, getAllPatients } = require('../api/models/patient');
+const {
+  updatePatient, registerPatient, getAllPatientsFromUserId,
+} = require('../api/models/patient');
+const { register } = require('../api/models/user');
 
 describe('Testes de verificação da camada model de pacientes', function () {
   let connectionMock;
@@ -86,12 +89,20 @@ describe('Testes de verificação da camada model de pacientes', function () {
     });
   });
 
-  describe('- GetAll: ao buscar todos os pacientes:', function () {
+  describe('- GetAll: ao buscar todos os pacientes associados ao id do usuário:', function () {
     test('- retorna um array com todos os pacientes', async function () {
-      await registerPatient({ ...payload, patient: 'João' });
-      await registerPatient({ ...payload, patient: 'Pedro' });
-      const result = await getAllPatients();
-      expect(result).toHaveLength(3);
+      const { _id: userId } = await register({
+        name: 'Usuário 1',
+        email: 'usuario_1@email.com',
+        password: '123456',
+        securityPhrase: 'abc abc',
+      });
+      
+      await registerPatient({ ...payload, patient: 'João', userId });
+      await registerPatient({ ...payload, patient: 'Pedro', userId });
+      const result = await getAllPatientsFromUserId(userId);
+      console.log(result);
+      expect(result).toHaveLength(2);
     });
   });
 });
