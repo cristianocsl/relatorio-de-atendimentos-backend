@@ -10,7 +10,7 @@ const {
   INEXISTING_PATIENT, USERID_DOES_NOT_MATCH, EXISTING_PATIENT,
 } = require('../api/error/msgCodeError');
 
-describe('Testes da camada service: registro e atualização de paciente:', function () {
+describe('Testes da camada service: registro, atualização e busca de paciente:', function () {
   let connectionMock;
   let response;
 
@@ -152,6 +152,13 @@ describe('Testes da camada service: registro e atualização de paciente:', func
       expect(result).toHaveProperty('code');
       expect(result.code).toEqual(CONFLICT);
       expect(result.message).toEqual('Paciente já cadastrado!');
+    });
+  });
+
+  describe('GetAllPatientsFromUserId: ao buscar um paciente pelo id do usuário:', function () {
+    test('- retorna um array de pacientes', async function () {
+      const result = await service.getAllPatientsFromUserId('5c9f9f8f9f9f9f9f9f9f9f93');
+      expect(result).toBeInstanceOf(Array);
     });
   });
 });
