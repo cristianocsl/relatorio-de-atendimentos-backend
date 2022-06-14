@@ -3,9 +3,9 @@ const sinon = require('sinon');
 const { MongoClient } = require('mongodb');
 const { MongoMemoryServer } = require('mongodb-memory-server');
 
-const { updatePatient, registerPatient } = require('../api/models/patient');
+const { updatePatient, registerPatient, getAllPatients } = require('../api/models/patient');
 
-describe('Testes de verificação da camada model para registro de pacientes', function () {
+describe('Testes de verificação da camada model de pacientes', function () {
   let connectionMock;
   let response;
   
@@ -43,10 +43,6 @@ describe('Testes de verificação da camada model para registro de pacientes', f
     sinon.stub(MongoClient, 'connect').resolves(connectionMock);
     response = await registerPatient({ ...payload });
   });
-  
-  // afterAll(function () {
-  //   MongoClient.connect.restore();
-  // });
     
   describe('- Register: ao realizar o cadastro', function () {
     test('garante que um documento é inserido no banco de dados:', async function () {
@@ -87,6 +83,15 @@ describe('Testes de verificação da camada model para registro de pacientes', f
       );
 
       expect(result).toBe(null);
+    });
+  });
+
+  describe('- GetAll: ao buscar todos os pacientes:', function () {
+    test('- retorna um array com todos os pacientes', async function () {
+      await registerPatient({ ...payload, patient: 'João' });
+      await registerPatient({ ...payload, patient: 'Pedro' });
+      const result = await getAllPatients();
+      expect(result).toHaveLength(3);
     });
   });
 });
