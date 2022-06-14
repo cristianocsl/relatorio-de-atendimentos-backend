@@ -157,8 +157,13 @@ describe('Testes da camada service: registro, atualização e busca de paciente:
 
   describe('GetAllPatientsFromUserId: ao buscar um paciente pelo id do usuário:', function () {
     test('- retorna um array de pacientes', async function () {
+      await service.registerPatient(
+        { ...payload, patient: 'paciente segundo', userId: '5c9f9f8f9f9f9f9f9f9f9f93' },
+      );
       const result = await service.getAllPatientsFromUserId('5c9f9f8f9f9f9f9f9f9f9f93');
+
       expect(result).toBeInstanceOf(Array);
+      expect(result).toHaveLength(2);
     });
   });
 });
