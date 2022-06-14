@@ -1,9 +1,10 @@
 const sinon = require('sinon');
 const { MongoClient } = require('mongodb');
 const { MongoMemoryServer } = require('mongodb-memory-server');
-const { CONFLICT } = require('http-status-codes').StatusCodes;
+const { CONFLICT, NOT_FOUND } = require('http-status-codes').StatusCodes;
 
 const service = require('../api/services/patient');
+const serviceUser = require('../api/services/user');
 const modelPatient = require('../api/models/patient');
 const ApiError = require('../api/error/apiError');
 const {
@@ -156,7 +157,18 @@ describe('Testes da camada service: registro, atualização e busca de paciente:
   });
 
   describe('GetAllPatientsFromUserId: ao buscar um paciente pelo id do usuário:', function () {
-    test('- retorna um array de pacientes', async function () {
+    let resultGetAllPatients;
+
+    beforeAll(async function () {
+      const { userId } = await serviceUser.register({
+        name: 'Usuário',
+        email: 'usuario@email',
+        password: '123456',
+      });
+      resultGetAllPatients = await service.getAllPatientsFromUserId(userId);
+    });
+
+    test('- retorna um array de pacientes.', async function () {
       await service.registerPatient(
         { ...payload, patient: 'paciente segundo', userId: '5c9f9f8f9f9f9f9f9f9f9f93' },
       );
@@ -164,6 +176,14 @@ describe('Testes da camada service: registro, atualização e busca de paciente:
 
       expect(result).toBeInstanceOf(Array);
       expect(result).toHaveLength(2);
+    });
+
+    test('- se não existem pacientes registrados, retorna uma mensagem.', async function () {
+      expect(resultGetAllPatients.message).toBe('Não há pacientes cadastrados para este usuário!');
+    });
+
+    test('- se não existem pacientes registrados, retorna um código NOT_FOUND.', async function () {
+      expect(resultGetAllPatients.code).toBe(NOT_FOUND);
     });
   });
 });
