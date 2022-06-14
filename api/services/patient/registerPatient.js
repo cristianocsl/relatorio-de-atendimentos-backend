@@ -19,7 +19,7 @@ const newPayload = ({
 module.exports.registerPatient = async (payload) => {
   const patient = await findPatient({ patient: payload.patient, userId: payload.userId });
 
-  if (patient) return ApiError.SendToErrorMiddleware(EXISTING_PATIENT);
+  if (patient) return new ApiError(EXISTING_PATIENT);
 
   const {
     unitPrice,

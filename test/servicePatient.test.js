@@ -7,6 +7,7 @@ const service = require('../api/services/patient');
 const serviceUser = require('../api/services/user');
 const modelPatient = require('../api/models/patient');
 const ApiError = require('../api/error/apiError');
+
 const {
   INEXISTING_PATIENT, USERID_DOES_NOT_MATCH, EXISTING_PATIENT,
 } = require('../api/error/msgCodeError');
