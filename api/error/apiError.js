@@ -5,11 +5,6 @@ class ApiError {
     this.code = code;
     this.message = message;
   }
-
-  static SendToErrorMiddleware() {
-    // const { code, message } = obj;
-    // throw new ApiError(code, message);
-  }
 }
 
 module.exports = ApiError;
