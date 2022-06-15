@@ -1,5 +1,5 @@
 const sinon = require('sinon');
-const { BAD_REQUEST, CREATED } = require('http-status-codes').StatusCodes;
+const { BAD_REQUEST, CREATED, OK } = require('http-status-codes').StatusCodes;
 const { MongoClient } = require('mongodb');
 const { MongoMemoryServer } = require('mongodb-memory-server');
 
@@ -66,14 +66,21 @@ describe('Testes da camada controller: registro de dados de paciente.', function
           'Não é possível cadastrar um usuário com campos vazios!',
           ));
       },
-      );
-    });
+    );
+  });
     
-    describe('- Registro: ao realizar o cadastro com sucesso', function () {
-      test('retorna resposta com status 201', async function () {
-        request.body = { ...payload };
-        await controller.registerPatient(request, response);
-        expect(response.status.calledWith(CREATED)).toBe(true);
+  describe('- Registro: ao realizar o cadastro com sucesso', function () {
+    test('retorna resposta com status 201', async function () {
+      request.body = { ...payload };
+      await controller.registerPatient(request, response);
+      expect(response.status.calledWith(CREATED)).toBe(true);
+    });
+  });
+
+  describe('- GetAll: ao chamar o controller de getAllPatients', function () {
+    test('retorna resposta com status 200 em caso de sucesso', async function () {
+      await controller.getAllPatientsFromUserId(request, response);
+      expect(response.status.calledWith(OK)).toBe(true);
     });
   });
 });
