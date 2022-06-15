@@ -101,7 +101,6 @@ describe('Testes de verificação da camada model de pacientes', function () {
       await registerPatient({ ...payload, patient: 'João', userId });
       await registerPatient({ ...payload, patient: 'Pedro', userId });
       const result = await getAllPatientsFromUserId(userId);
-      console.log(result);
       expect(result).toHaveLength(2);
     });
   });

@@ -5,8 +5,6 @@ const { MongoMemoryServer } = require('mongodb-memory-server');
 require('dotenv').config();
 
 const { TOKEN_NOT_FOUND, INVALID_TOKEN } = require('../api/error/msgCodeError');
-const ApiError = require('../api/error/apiError');
-const controller = require('../api/controllers/user');
 const { authentication } = require('../api/middlewares/auth');
 
 describe('Teste da função authentication', function () {
@@ -20,11 +18,6 @@ describe('Teste da função authentication', function () {
     email: 'cslcristiano@gmail.com',
   };
 
-  const loginPayload = {
-    name: 'Cristiano',
-    token: 'shflskjfsldf1208909098sad',
-  };
-
   beforeAll(async function () {
     const DBSERVER = await MongoMemoryServer.create();
     const URLMock = DBSERVER.getUri();
@@ -35,8 +28,6 @@ describe('Teste da função authentication', function () {
     });
     
     sinon.stub(MongoClient, 'connect').resolves(connectionMock);
-    sinon.stub(ApiError, 'SendToErrorMiddleware').returns(TOKEN_NOT_FOUND);
-    sinon.stub(controller, 'login').returns(loginPayload);
 
     response.status = sinon.stub().returns(response);
     response.json = sinon.stub().returns();
@@ -46,12 +37,15 @@ describe('Teste da função authentication', function () {
 
   test('- retorna status 401 e uma mensagem de erro, se o token não for encontrado',
   async function () {
-    request = { headers: {} };
-    response = {};
-    const next = () => {};
-    const result = await authentication(request, response, next);
-    expect(result.code).toEqual(401);
-    expect(result.message).toEqual('Token não encontrado!');
+    try {
+      request = { headers: {} };
+      response = {};
+      const next = () => {};
+      authentication(request, response, next);
+    } catch (error) {
+      expect(error.code).toEqual(401);
+      expect(error.message).toEqual('Token não encontrado!');
+    }
   });
 
   test('- verifica que o token é validado e retorna chave user com dados do usuário',

@@ -3,7 +3,6 @@ const bcrypt = require('bcrypt');
 const sinon = require('sinon');
 const { MongoClient } = require('mongodb');
 const { MongoMemoryServer } = require('mongodb-memory-server');
-const ApiError = require('../api/error/apiError');
 
 const { USER_DOES_NOT_EXIST, INCORRECT_PASSWORD } = require('../api/error/msgCodeError');
 
@@ -36,19 +35,12 @@ describe('Testes de verificação da camada service para login:', function () {
       .onCall(1)
         .returns(false);
 
-    sinon.stub(ApiError, 'SendToErrorMiddleware') 
-      .onCall(0)
-        .resolves(USER_DOES_NOT_EXIST)
-      .onCall(1)
-        .resolves(INCORRECT_PASSWORD);
-    
     await RegisterModel.register(payload);
   });
 
   afterAll(async function () {
     MongoClient.connect.restore();
     bcrypt.compare.restore();
-    ApiError.SendToErrorMiddleware.restore();
   });
 
   describe('- ao realizar o login com sucesso, verifica que o método login', function () {
@@ -65,29 +57,29 @@ describe('Testes de verificação da camada service para login:', function () {
 
   describe('- ao realizar o login com um email que não existe no banco de dados', function () {
     test('retorna um código e uma mensagem de erro', async function () {
-      const response = await UserService.login({
-        email: 'email_diferente@gmail.com',
-        password: '123456',
-      });
-      
-      expect(response).toHaveProperty('code');
-      expect(response).toHaveProperty('message');
-      expect(response.code).toEqual(USER_DOES_NOT_EXIST.code);
-      expect(response.message).toEqual(USER_DOES_NOT_EXIST.message);
+      try {
+        await UserService.login({
+          email: 'email_diferente@gmail.com',
+          password: '123456',
+        });
+      } catch (error) {
+        expect(error.code).toEqual(USER_DOES_NOT_EXIST.code);
+        expect(error.message).toEqual(USER_DOES_NOT_EXIST.message);
+      }
     });
   });
   
   describe('- ao realizar o login com uma senha errada', function () {
     test('retorna um código e uma mensagem de erro', async function () {
-      const response = await UserService.login({
-        email: payload.email,
-        password: 'xxxxxx',
-      });
-      
-      expect(response).toHaveProperty('code');
-      expect(response).toHaveProperty('message');
-      expect(response.code).toEqual(INCORRECT_PASSWORD.code);
-      expect(response.message).toEqual(INCORRECT_PASSWORD.message);
+      try {
+        await UserService.login({
+          email: payload.email,
+          password: 'xxxxxx',
+        });
+      } catch (error) {
+        expect(error.code).toEqual(INCORRECT_PASSWORD.code);
+        expect(error.message).toEqual(INCORRECT_PASSWORD.message);
+      }
     });
   });
 });
