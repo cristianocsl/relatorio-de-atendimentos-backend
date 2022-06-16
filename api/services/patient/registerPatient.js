@@ -1,5 +1,5 @@
 const ApiError = require('../../error/apiError');
-const { EXISTING_PATIENT } = require('../../error/msgCodeError');
+const { EXISTING_PATIENT, EMPTY_BODY } = require('../../error/msgCodeError');
 
 const { registerPatient: register } = require('../../models/patient');
 const { findPatient } = require('../../models/patient');
@@ -17,6 +17,8 @@ const newPayload = ({
   });
 
 module.exports.registerPatient = async (payload) => {
+  if (!payload.patient) throw new ApiError(EMPTY_BODY);
+  
   const patient = await findPatient({ patient: payload.patient, userId: payload.userId });
 
   if (patient) throw new ApiError(EXISTING_PATIENT);
