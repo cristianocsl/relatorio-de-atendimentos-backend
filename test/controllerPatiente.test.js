@@ -1,5 +1,5 @@
 const sinon = require('sinon');
-const { BAD_REQUEST, CREATED, OK } = require('http-status-codes').StatusCodes;
+const { BAD_REQUEST, CREATED, OK, CONFLICT } = require('http-status-codes').StatusCodes;
 const { MongoClient } = require('mongodb');
 const { MongoMemoryServer } = require('mongodb-memory-server');
 
@@ -45,12 +45,12 @@ describe('Testes da camada controller: registro de dados de paciente.', function
 
     request.body = {};
     request.user = {};
-    await controller.registerPatient(request, response);
   });
   
   describe('- Registro: ao chamar o controller de registerPatient com um body vazio:', function () {
     test('retorna resposta com status 400', async function () {
       request.body = {};
+      await controller.registerPatient(request, response);
       expect(response.status.calledWith(BAD_REQUEST)).toBe(true);
     });
     
@@ -74,6 +74,12 @@ describe('Testes da camada controller: registro de dados de paciente.', function
       request.body = { ...payload };
       await controller.registerPatient(request, response);
       expect(response.status.calledWith(CREATED)).toBe(true);
+    });
+    
+    test('retorna resposta com status 409, se o paciente já está cadastrado', async function () {
+      request.body = { ...payload };
+      await controller.registerPatient(request, response);
+      expect(response.status.calledWith(CONFLICT)).toBe(true);
     });
   });
 
