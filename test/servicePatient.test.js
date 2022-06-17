@@ -91,6 +91,9 @@ describe('Testes da camada service: registro, atualização e busca de paciente:
     test('retorna a chave "priority"', async function () {
       expect(response).toHaveProperty('priority');
     });
+    test('retorna a chave "createdAt"', async function () {
+      expect(response).toHaveProperty('createdAt');
+    });
     test('retorna a chave "message" com mensagem de sucesso', async function () {
       expect(response).toHaveProperty('message');
       expect(response.message).toEqual('Paciente cadastrado com sucesso!');
