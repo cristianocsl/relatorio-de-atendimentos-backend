@@ -9,6 +9,7 @@
         "ecmaVersion": "latest"
     },
     "rules": {
-        "eslint-disable": 0
+        "eslint-disable": 0,
+        "max-lines-per-function": ["error", 180]
     }
 }
