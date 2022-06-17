@@ -1,20 +1,10 @@
 const ApiError = require('../../error/apiError');
 const { EXISTING_PATIENT, EMPTY_BODY } = require('../../error/msgCodeError');
 
+const { convertOneDate } = require('../utilities/outputDate');
+
 const { registerPatient: register } = require('../../models/patient');
 const { findPatient } = require('../../models/patient');
-
-const newPayload = ({ 
-    payload, weekly, weeklyDone, monthly, monthlyDone, prevTotalPrice, doneTotalPrice,
-  }) => ({
-  ...payload,
-    prevTotalPrice,
-    doneTotalPrice,
-    servicePending: {
-      weekly: weekly - weeklyDone,
-      monthly: monthly - monthlyDone,
-    },
-  });
 
 module.exports.registerPatient = async (payload) => {
   if (!payload.patient) throw new ApiError(EMPTY_BODY);
@@ -32,11 +22,27 @@ module.exports.registerPatient = async (payload) => {
   const prevTotalPrice = unitPrice * monthly;
   const doneTotalPrice = unitPrice * monthlyDone;
 
-  const myNewPayload = newPayload({
-    payload, weekly, weeklyDone, monthly, monthlyDone, prevTotalPrice, doneTotalPrice,
-  });
+  const status = payload.status || 'Ativo';
+  const priority = payload.priority || 'Normal';
+  const createdAt = new Date().toISOString();
+  const myNewPayload = {
+    ...payload,
+    status,
+    priority,
+    createdAt,
+    prevTotalPrice,
+    doneTotalPrice,
+    servicePending: {
+      weekly: weekly - weeklyDone,
+      monthly: monthly - monthlyDone,
+    },
+  };
 
   await register(myNewPayload);
 
-  return { ...myNewPayload, message: 'Paciente cadastrado com sucesso!' };
+  return {
+    ...myNewPayload,
+    createdAt: convertOneDate(createdAt),
+    message: 'Paciente cadastrado com sucesso!',
+  };
 };
