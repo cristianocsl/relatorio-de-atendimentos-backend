@@ -1,7 +1,7 @@
 const ApiError = require('../../error/apiError');
 const { EXISTING_PATIENT, EMPTY_BODY } = require('../../error/msgCodeError');
 
-const { convertOneDate } = require('../utilities/outputDate');
+const { convertOneDate } = require('../utilities/workingWithDates');
 
 const { registerPatient: register } = require('../../models/patient');
 const { findPatient } = require('../../models/patient');
