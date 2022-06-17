@@ -134,6 +134,8 @@ Obs.: dias da semana: 0 = domingo, 1 = segunda-feira, ... , 7 = sábado.
   "unitPrice": 40,
   "evolution": "",
   "userId": "62a2b3d2f998f4587e3f7303",
+  "status": "Ativo",
+  "priority": "Normal",
   "prevTotalPrice": 480,
   "doneTotalPrice": 0,
   "servicePending": {
@@ -176,6 +178,8 @@ Casos de falha na validação da requisição terão as seguintes respostas segu
     "weekly": 3,
     "monthly": 0
   },
+  "status": "Ativo",
+  "priority": "Normal",
   "healthInsurance": "Home Care Saúde",
   "unitPrice": 40,
   "evolution": ""
@@ -200,6 +204,8 @@ Casos de falha na validação da requisição terão as seguintes respostas segu
     "weekly": 3,
     "monthly": 0
   },
+  "status": "Ativo",
+  "priority": "Normal",
   "healthInsurance": "Home Care Saúde",
   "unitPrice": 40,
   "evolution": "",
@@ -229,9 +235,71 @@ Casos de falha na validação da requisição terão as seguintes respostas segu
 
 ## Visualizando pacientes cadastrados
 
-### Endpoint GET <code>/patients</code>
-
-#### ... Em desenvolvimento!
+### Caso de sucesso na requisição do Endpoint GET <code>/patients</code>
+```json
+[
+  {
+    "_id": "62ac9e9a6702b297adbaa5f3",
+    "patient": "José",
+    "neighborhood": "Farol",
+    "days": [
+      1,
+      4
+    ],
+    "serviceGoal": {
+      "weekly": 3,
+      "monthly": 12
+    },
+    "servicePerformed": {
+      "weekly": 0,
+      "monthly": 0
+    },
+    "healthInsurance": "saude & suporte",
+    "unitPrice": 40,
+    "evolution": "",
+    "userId": "62ac9e3e6702b297adbaa5f2",
+    "status": "Ativo",
+    "priority": "Normal",
+    "createdAt": "2022-06-17T15:32:42.031Z",
+    "prevTotalPrice": 480,
+    "doneTotalPrice": 0,
+    "servicePending": {
+      "weekly": 3,
+      "monthly": 12
+    }
+  },
+  {
+    "_id": "62ac9ec56702b297adbaa5f4",
+    "patient": "Maria",
+    "neighborhood": "Farol",
+    "days": [
+      2,
+      5
+    ],
+    "serviceGoal": {
+      "weekly": 3,
+      "monthly": 12
+    },
+    "servicePerformed": {
+      "weekly": 0,
+      "monthly": 0
+    },
+    "healthInsurance": "saude & suporte",
+    "unitPrice": 40,
+    "evolution": "",
+    "userId": "62ac9e3e6702b297adbaa5f2",
+    "status": "Ativo",
+    "priority": "Normal",
+    "createdAt": "2022-06-17T15:33:25.965Z",
+    "prevTotalPrice": 480,
+    "doneTotalPrice": 0,
+    "servicePending": {
+      "weekly": 3,
+      "monthly": 12
+    }
+  }
+]
+```
 
 ---
 
