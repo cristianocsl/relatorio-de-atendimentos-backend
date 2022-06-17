@@ -15,8 +15,6 @@ describe('Testes da camada service: registro, atualização e busca de paciente:
   const payload = {
     patient: 'Maria',
     neighborhood: 'Farol',
-    status: 'Ativo',
-    priority: 'Urgente',
     days: [1, 4],
     serviceGoal: {
       weekly: 3,
