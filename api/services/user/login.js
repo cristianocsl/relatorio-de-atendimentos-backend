@@ -7,11 +7,11 @@ const { USER_DOES_NOT_EXIST, INCORRECT_PASSWORD } = require('../../error/msgCode
 
 const login = async ({ email, password: inputPassword }) => {
   const user = await findUser(email);
-
-  if (!user) return ApiError.SendToErrorMiddleware(USER_DOES_NOT_EXIST);
+  
+  if (!user) throw new ApiError(USER_DOES_NOT_EXIST);
   const matchPassword = await bcrypt.compare(inputPassword, user.password);
-
-  if (!matchPassword) return ApiError.SendToErrorMiddleware(INCORRECT_PASSWORD);
+  
+  if (!matchPassword) throw new ApiError(INCORRECT_PASSWORD);
   const { _id, name } = user;
   const token = tokenGenerator({ _id, name, email });
 

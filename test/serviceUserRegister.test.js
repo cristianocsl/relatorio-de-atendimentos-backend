@@ -3,7 +3,6 @@ const { MongoClient } = require('mongodb');
 const { MongoMemoryServer } = require('mongodb-memory-server');
 
 const RegisterService = require('../api/services/user');
-const ApiError = require('../api/error/apiError');
 const { EMAIL_EXISTING } = require('../api/error/msgCodeError');
 
 describe('Testes de verificação da camada service para registro:', function () {
@@ -26,7 +25,6 @@ describe('Testes de verificação da camada service para registro:', function ()
     });
     
     sinon.stub(MongoClient, 'connect').resolves(connectionMock);
-    sinon.stub(ApiError, 'SendToErrorMiddleware').resolves(EMAIL_EXISTING);
   });
 
   describe('- ao realizar o cadastro verifica que o método register', function () {
@@ -38,17 +36,19 @@ describe('Testes de verificação da camada service para registro:', function ()
       expect(response).toHaveProperty('userId');
       expect(response).toHaveProperty('message');
       expect(response.name).toEqual('Cristiano');
-      expect(response.message).toEqual('Usuário cadastrado com sucesso!');
+      expect(response.message)
+        .toEqual(`Parabéns, ${response.name}! Seu cadastro foi realizado com sucesso!`);
     });
   });
 
   describe('- ao realizar um cadastro com um email que já existe no banco de dados', function () {
     test('retorna um código e uma mensagem de erro', async function () {
-      const response = await RegisterService.register(payload);
-      expect(response).toHaveProperty('code');
-      expect(response).toHaveProperty('message');
-      expect(response.code).toEqual(EMAIL_EXISTING.code);
-      expect(response.message).toEqual(EMAIL_EXISTING.message);
+      try {
+        await RegisterService.register(payload);
+      } catch (error) {
+      expect(error.code).toEqual(EMAIL_EXISTING.code);
+      expect(error.message).toEqual(EMAIL_EXISTING.message);
+      }
     });
   });
 });

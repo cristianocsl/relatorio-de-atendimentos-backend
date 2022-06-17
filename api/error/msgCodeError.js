@@ -18,7 +18,9 @@ const {
     code: NOT_FOUND, message: 'Usuário não existe ou email está incorreto!',
   };
     
-  const UNAUTHORIZED_USER = { code: UNAUTHORIZED, message: 'Usuário não autorizado!' };
+  const EMPTY_PATIENT_LIST = {
+    code: NOT_FOUND, message: 'Não há pacientes cadastrados para este usuário!',
+  };
 
   const INVALID_ID_LENGTH = { code: BAD_REQUEST, message: 'Mongodb id must be 24 characters' };
 
@@ -34,7 +36,7 @@ module.exports = {
   TOKEN_NOT_FOUND,
   INVALID_TOKEN,
   USER_DOES_NOT_EXIST,
-  UNAUTHORIZED_USER,
+  EMPTY_PATIENT_LIST,
   INVALID_ID_LENGTH,
   EMPTY_BODY,
   EXISTING_PATIENT,

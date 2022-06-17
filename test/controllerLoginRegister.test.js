@@ -1,11 +1,10 @@
 const sinon = require('sinon');
-const { BAD_REQUEST, CREATED, OK, NOT_FOUND } = require('http-status-codes').StatusCodes;
+const { BAD_REQUEST, CREATED, OK } = require('http-status-codes').StatusCodes;
 const { MongoClient } = require('mongodb');
 const { MongoMemoryServer } = require('mongodb-memory-server');
 
 const { USER_DOES_NOT_EXIST, INCORRECT_PASSWORD } = require('../api/error/msgCodeError');
 
-const writeSuccessMsg = require('../api/services/utilities/successMsg');
 const controller = require('../api/controllers/user');
 
 describe('Testando a camada controller para registro e login de usuário', function () {
@@ -46,21 +45,10 @@ describe('Testando a camada controller para registro e login de usuário', funct
   });
 
   describe('- Register: ao realizar o cadastro com sucesso', function () {
-    beforeAll(async function () {
+    test('retorna resposta com status 201', async function () {
       request.body = { ...payload };
       await controller.register(request, response);
-    });
-
-    afterAll(function () {
-      request.body = {};
-    });
-    
-    test('retorna resposta com status 201', async function () {
       expect(response.status.calledWith(CREATED)).toBe(true);
-    });
-
-    test('retorna mensagem de sucesso', async function () {
-      expect(response.json.calledWith(writeSuccessMsg(payload.name))).toBe(true);
     });
   });
   
@@ -74,15 +62,11 @@ describe('Testando a camada controller para registro e login de usuário', funct
   });
   
   describe('- Login: em caso de falha', function () {
-    afterAll(function () {
-      request.body = {};
-    });
-    
     test('retorna resposta com status 404, se o email for inexistente', async function () {
       request.body = { email: 'email_inexistente@gmail.com', password: payload.password };
       await controller.login(request, response);
 
-      expect(response.status.calledWith(NOT_FOUND)).toBe(true);
+      expect(response.status.calledWith(404)).toBe(true);
     });
 
     test(
@@ -95,7 +79,7 @@ describe('Testando a camada controller para registro e login de usuário', funct
         sinon.match.has(
           'message',
           'Senha incorreta!',
-          ));
+        ));
       },
     );
 
@@ -109,7 +93,7 @@ describe('Testando a camada controller para registro e login de usuário', funct
         sinon.match.has(
           'message',
           'Usuário não existe ou email está incorreto!',
-          ));
+        ));
       },
     );
 

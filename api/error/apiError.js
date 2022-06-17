@@ -1,12 +1,9 @@
 class ApiError {
-  constructor(code, message) {
+  constructor(obj) {
+    const { code, message } = obj;
+
     this.code = code;
     this.message = message;
-  }
-
-  static SendToErrorMiddleware(obj) {
-    const { code, message } = obj;
-    throw new ApiError(code, message);
   }
 }
 

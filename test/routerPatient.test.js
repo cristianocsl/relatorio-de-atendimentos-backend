@@ -110,4 +110,14 @@ describe('Testando a rota /registerPatient:', function () {
       expect(response.body.message).toStrictEqual('Paciente atualizado com sucesso!');
     });
   });
+
+  describe('Testando a rota GET de pacientes cadastrados', function () {
+    test('- retorna statusCode 200', async function () {
+      response = await request(app)
+      .get('/patients')
+      .send()
+      .set('authorization', recivedToken);
+      expect(response.statusCode).toBe(200);
+    });
+  });
 });

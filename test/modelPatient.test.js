@@ -3,15 +3,20 @@ const sinon = require('sinon');
 const { MongoClient } = require('mongodb');
 const { MongoMemoryServer } = require('mongodb-memory-server');
 
-const { updatePatient, registerPatient } = require('../api/models/patient');
+const {
+  updatePatient, registerPatient, getAllPatientsFromUserId,
+} = require('../api/models/patient');
+const { register } = require('../api/models/user');
 
-describe('Testes de verificação da camada model para registro de pacientes', function () {
+describe('Testes de verificação da camada model de pacientes', function () {
   let connectionMock;
   let response;
   
   const payload = {
     patient: 'Maria',
     neighborhood: 'Farol',
+    status: 'Ativo',
+    priority: 'Urgente',
     days: [1, 4],
     serviceGoal: {
       weekly: 3,
@@ -43,10 +48,6 @@ describe('Testes de verificação da camada model para registro de pacientes', f
     sinon.stub(MongoClient, 'connect').resolves(connectionMock);
     response = await registerPatient({ ...payload });
   });
-  
-  // afterAll(function () {
-  //   MongoClient.connect.restore();
-  // });
     
   describe('- Register: ao realizar o cadastro', function () {
     test('garante que um documento é inserido no banco de dados:', async function () {
@@ -87,6 +88,22 @@ describe('Testes de verificação da camada model para registro de pacientes', f
       );
 
       expect(result).toBe(null);
+    });
+  });
+
+  describe('- GetAll: ao buscar todos os pacientes associados ao id do usuário:', function () {
+    test('- retorna um array com todos os pacientes', async function () {
+      const { _id: userId } = await register({
+        name: 'Usuário 1',
+        email: 'usuario_1@email.com',
+        password: '123456',
+        securityPhrase: 'abc abc',
+      });
+      
+      await registerPatient({ ...payload, patient: 'João', userId });
+      await registerPatient({ ...payload, patient: 'Pedro', userId });
+      const result = await getAllPatientsFromUserId(userId);
+      expect(result).toHaveLength(2);
     });
   });
 });
