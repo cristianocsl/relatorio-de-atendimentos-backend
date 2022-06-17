@@ -12,6 +12,8 @@ describe('Testes da camada controller: registro de dados de paciente.', function
   const payload = {
     patient: 'Maria',
     neighborhood: 'Farol',
+    status: 'Ativo',
+    priority: 'Urgente',
     days: [1, 4],
     serviceGoal: {
       weekly: 3,

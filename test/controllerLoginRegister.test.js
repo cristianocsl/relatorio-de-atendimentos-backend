@@ -93,7 +93,7 @@ describe('Testando a camada controller para registro e login de usuário', funct
         sinon.match.has(
           'message',
           'Usuário não existe ou email está incorreto!',
-          ));
+        ));
       },
     );
 

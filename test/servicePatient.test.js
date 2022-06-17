@@ -15,6 +15,8 @@ describe('Testes da camada service: registro, atualização e busca de paciente:
   const payload = {
     patient: 'Maria',
     neighborhood: 'Farol',
+    status: 'Ativo',
+    priority: 'Urgente',
     days: [1, 4],
     serviceGoal: {
       weekly: 3,
@@ -82,6 +84,12 @@ describe('Testes da camada service: registro, atualização e busca de paciente:
     });
     test('retorna a chave "neighborhood"', async function () {
       expect(response).toHaveProperty('neighborhood');
+    });
+    test('retorna a chave "status"', async function () {
+      expect(response).toHaveProperty('status');
+    });
+    test('retorna a chave "priority"', async function () {
+      expect(response).toHaveProperty('priority');
     });
     test('retorna a chave "message" com mensagem de sucesso', async function () {
       expect(response).toHaveProperty('message');
