@@ -9,10 +9,10 @@ const validate = (email, password) => {
 };
 
 module.exports.validateRegister = async (body) => {
-  const { name, email, inputPassword } = body;
+  const { name, email, password } = body;
   if (!name.length) throw new ApiError(EMPTY_FIELD);
-  validate(email, inputPassword);
+  validate(email, password);
   if (!REGEX.test(email)) throw new ApiError(INVALID_EMAIL);
-  if (!inputPassword.length) throw new ApiError(EMPTY_FIELD);
-  if (inputPassword.length < 6) throw new ApiError(INVALID_PASSWORD);
+  if (!password.length) throw new ApiError(EMPTY_FIELD);
+  if (password.length < 6) throw new ApiError(INVALID_PASSWORD);
 };
