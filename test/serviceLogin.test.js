@@ -3,7 +3,7 @@ const bcrypt = require('bcrypt');
 const sinon = require('sinon');
 const { MongoClient } = require('mongodb');
 const { MongoMemoryServer } = require('mongodb-memory-server');
-const { NOT_FOUND } = require('http-status-codes').StatusCodes;
+const { NOT_FOUND, BAD_REQUEST } = require('http-status-codes').StatusCodes;
 
 const {
   USER_DOES_NOT_EXIST, INCORRECT_PASSWORD,
@@ -37,16 +37,30 @@ describe('Testes de verificação da camada service para login:', function () {
         .returns(true)
       .onCall(1)
         .returns(false);
-
-    await RegisterModel.register(payload);
-  });
-
-  afterAll(async function () {
-    MongoClient.connect.restore();
-    bcrypt.compare.restore();
-  });
+        
+        await RegisterModel.register(payload);
+      });
+      
+      afterAll(async function () {
+        MongoClient.connect.restore();
+        bcrypt.compare.restore();
+      });
   
-  describe('- ao realizar o login com sucesso, verifica que o método login', function () {
+    describe('- ao realizar o login com email no formato inválido', function () {
+      test('retorna mensagem de erro', async function () {
+        try {
+          await UserService.login({
+            email: 'cristiano_gmail.com',
+            password: '123456',
+          });
+        } catch (error) {
+          expect(error.message).toEqual('Formato de e-mail inválido!');
+          expect(error.code).toEqual(BAD_REQUEST);
+        }
+      });
+    });
+      
+      describe('- ao realizar o login com sucesso, verifica que o método login', function () {
     test('retorna as chaves "name" e "token"', async function () {
       const response = await UserService.login({
         email: payload.email,
