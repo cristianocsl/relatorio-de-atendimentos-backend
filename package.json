@@ -8,7 +8,7 @@
     "prepare": "husky install",
     "gcmsg": "git-cz",
     "dev": "node index.js",
-    "start": "nodemon index.js",
+    "start": "node index.js",
     "lint": "eslint --no-inline-config --no-error-on-unmatched-pattern -c .eslintrc.json ."
   },
   "lint-staged": {
