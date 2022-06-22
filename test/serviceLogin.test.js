@@ -19,7 +19,6 @@ describe('Testes de verificação da camada service para login:', function () {
       name: 'Cristiano',
       email: 'cslcristiano@gmail.com',
       password: '123456',
-      securityPhrase: 'meu-segredo',
   };
 
   beforeAll(async function () {

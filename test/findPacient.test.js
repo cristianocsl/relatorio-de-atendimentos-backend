@@ -49,7 +49,6 @@ describe('Testando a função findPatient', function () {
       name: 'Cristiano',
       email: 'cslcristiano@gmail.com',
       password: '123456',
-      securityPhrase: 'meu-segredo',
     });
     
     const { body: { token } } = await request(app)

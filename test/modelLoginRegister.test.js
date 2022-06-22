@@ -11,8 +11,6 @@ describe('Testes de verificação da camada model para registro e login:,', func
     name: 'Cristiano',
     email: 'cslcristiano@gmail.com',
     password: '123456',
-    confirmPassword: '123456',
-    securityPhrase: 'meu-segredo',
   };
   
   beforeAll(async function () {

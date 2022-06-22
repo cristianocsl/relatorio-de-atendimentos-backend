@@ -29,7 +29,6 @@ describe('Testando a rota /register e a rota /login:', function () {
         name: 'Cristiano',
         email: 'cslcristiano@gmail.com',
         password: '123456',
-        securityPhrase: 'meu-segredo',
       });
     });
 

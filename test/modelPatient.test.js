@@ -97,7 +97,6 @@ describe('Testes de verificação da camada model de pacientes', function () {
         name: 'Usuário 1',
         email: 'usuario_1@email.com',
         password: '123456',
-        securityPhrase: 'abc abc',
       });
       
       await registerPatient({ ...payload, patient: 'João', userId });

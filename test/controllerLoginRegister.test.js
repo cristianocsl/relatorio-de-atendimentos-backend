@@ -14,7 +14,6 @@ describe('Testando a camada controller para registro e login de usuário', funct
     name: 'Cristiano',
     email: 'cslcristiano@gmail.com',
     password: '123456',
-    securityPhrase: 'meu-segredo',
   };
 
   const request = {};
