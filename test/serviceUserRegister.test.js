@@ -1,6 +1,7 @@
 const sinon = require('sinon');
 const { MongoClient } = require('mongodb');
 const { MongoMemoryServer } = require('mongodb-memory-server');
+const { BAD_REQUEST, NOT_FOUND } = require('http-status-codes').StatusCodes;
 
 const RegisterService = require('../api/services/user');
 const { EMAIL_EXISTING } = require('../api/error/msgCodeError');
@@ -12,7 +13,6 @@ describe('Testes de verificação da camada service para registro:', function ()
     name: 'Cristiano',
     email: 'cslcristiano@gmail.com',
     password: '123456',
-    securityPhrase: 'meu-segredo',
   };
 
   beforeAll(async function () {
@@ -25,6 +25,36 @@ describe('Testes de verificação da camada service para registro:', function ()
     });
     
     sinon.stub(MongoClient, 'connect').resolves(connectionMock);
+  });
+
+  describe('- ao realizar o registro com email no formato inválido', function () {
+    test('retorna mensagem de erro', async function () {
+      try {
+        await RegisterService.register({
+          name: 'Cristiano',
+          email: 'cristiano_gmail.com',
+          password: '123456',
+        });
+      } catch (error) {
+        expect(error.message).toEqual('Formato de e-mail inválido!');
+        expect(error.code).toEqual(BAD_REQUEST);
+      }
+    });
+  });
+
+  describe('- ao realizar o registro com campos vazios', function () {
+    test('retorna mensagem de erro', async function () {
+      try {
+        await RegisterService.register({
+          name: '',
+          email: '',
+          password: '',
+        });
+      } catch (error) {
+        expect(error.message).toEqual('Este campo não pode ser vazio!');
+        expect(error.code).toEqual(NOT_FOUND);
+      }
+    });
   });
 
   describe('- ao realizar o cadastro verifica que o método register', function () {
