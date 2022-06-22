@@ -1,12 +1,9 @@
-const Joi = require('joi');
+const ApiError = require('../../error/apiError');
+const { EMPTY_FIELD, INVALID_PASSWORD } = require('../../error/msgCodeError');
 
-const SCHEMA = {
-  email: Joi.string().email().not().empty()
-    .required(),
-  password: Joi.string().min(6).not().empty()
-    .required(),
+module.exports.validateLogin = async (body) => {
+  const { email, inputPassword } = body;
+  if (!email.length) throw new ApiError(EMPTY_FIELD);
+  if (!inputPassword.length) throw new ApiError(EMPTY_FIELD);
+  if (inputPassword.length < 6) throw new ApiError(INVALID_PASSWORD);
 };
-
-const validateLogin = async (body) => Joi.object(SCHEMA).validate(body);
-
-module.exports = validateLogin;
