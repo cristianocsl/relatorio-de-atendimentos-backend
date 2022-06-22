@@ -3,8 +3,11 @@ const bcrypt = require('bcrypt');
 const sinon = require('sinon');
 const { MongoClient } = require('mongodb');
 const { MongoMemoryServer } = require('mongodb-memory-server');
+const { NOT_FOUND } = require('http-status-codes').StatusCodes;
 
-const { USER_DOES_NOT_EXIST, INCORRECT_PASSWORD } = require('../api/error/msgCodeError');
+const {
+  USER_DOES_NOT_EXIST, INCORRECT_PASSWORD,
+} = require('../api/error/msgCodeError');
 
 const RegisterModel = require('../api/models/user');
 const UserService = require('../api/services/user');
@@ -42,16 +45,30 @@ describe('Testes de verificação da camada service para login:', function () {
     MongoClient.connect.restore();
     bcrypt.compare.restore();
   });
-
+  
   describe('- ao realizar o login com sucesso, verifica que o método login', function () {
     test('retorna as chaves "name" e "token"', async function () {
       const response = await UserService.login({
         email: payload.email,
         password: payload.password,
       });
-      
+
       expect(response).toHaveProperty('name');
       expect(response).toHaveProperty('token');
+    });
+  });
+
+  describe('- ao realizar o login com body vazio', function () {
+    test('retorna mensagem de erro', async function () {
+      try {
+        await UserService.login({
+          email: '',
+          password: '',
+        });
+      } catch (error) {
+        expect(error.message).toEqual('Este campo não pode ser vazio!');
+        expect(error.code).toEqual(NOT_FOUND);
+      }
     });
   });
 
