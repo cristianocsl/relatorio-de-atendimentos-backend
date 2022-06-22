@@ -1,7 +1,7 @@
-const validateUserRegister = require('./validateUserRegister');
+const validateRegister = require('./validateRegister');
 const validateLogin = require('./validateLogin');
 
 module.exports = {
-  validateUserRegister,
+  validateRegister,
   validateLogin,
 };
