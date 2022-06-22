@@ -30,6 +30,10 @@ const {
 
   const USERID_DOES_NOT_MATCH = { code: NOT_FOUND, message: 'Id do usuário não confere!' };
 
+  const EMPTY_FIELD = { code: NOT_FOUND, message: 'Este campo não pode ser vazio!' };
+
+  const INVALID_PASSWORD = { code: BAD_REQUEST, message: 'A senha deve ter no mínimo 6 dígitos!' };
+
 module.exports = {
   INCORRECT_PASSWORD,
   EMAIL_EXISTING,
@@ -37,7 +41,9 @@ module.exports = {
   INVALID_TOKEN,
   USER_DOES_NOT_EXIST,
   EMPTY_PATIENT_LIST,
+  EMPTY_FIELD,
   INVALID_ID_LENGTH,
+  INVALID_PASSWORD,
   EMPTY_BODY,
   EXISTING_PATIENT,
   INEXISTING_PATIENT,
