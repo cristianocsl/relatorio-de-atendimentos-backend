@@ -34,6 +34,8 @@ const {
 
   const INVALID_PASSWORD = { code: BAD_REQUEST, message: 'A senha deve ter no mínimo 6 dígitos!' };
 
+  const INVALID_EMAIL = { code: BAD_REQUEST, message: 'Formato de e-mail inválido!' };
+
 module.exports = {
   INCORRECT_PASSWORD,
   EMAIL_EXISTING,
@@ -44,6 +46,7 @@ module.exports = {
   EMPTY_FIELD,
   INVALID_ID_LENGTH,
   INVALID_PASSWORD,
+  INVALID_EMAIL,
   EMPTY_BODY,
   EXISTING_PATIENT,
   INEXISTING_PATIENT,
