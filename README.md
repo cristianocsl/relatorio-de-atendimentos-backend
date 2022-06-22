@@ -17,7 +17,6 @@ Nesta aplicação é possível cadastrar dados de um paciente, metas semanais e 
 ```json
 {
   "name": "Cristiano",
-  "security_phrase": "frase de segurança para recuperação de senha",
   "email": "cristiano@exemplo.com",
   "password": "senhasenha",
 }
