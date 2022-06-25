@@ -97,7 +97,7 @@ describe('Testando a rota /registerPatient:', function () {
     });
     
     test('- retorna as atualizações feitas', async function () {
-      const { _id, userId, message, ...bodyInformations } = response.body;
+      const { _id, userId, message, updatedAt, ...bodyInformations } = response.body;
       expect(bodyInformations).toStrictEqual({
         ...payload,
         serviceGoal: { weekly: 3, monthly: 12 },
