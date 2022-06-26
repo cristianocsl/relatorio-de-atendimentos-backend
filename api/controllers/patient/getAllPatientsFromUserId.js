@@ -8,6 +8,7 @@ module.exports.getAllPatientsFromUserId = async (req, res) => {
 
     return res.status(OK).json(patients);
   } catch (err) {
+    console.error(err);
     return res.status(err).json(err);
   }
 };
