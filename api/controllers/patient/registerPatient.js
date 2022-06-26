@@ -7,6 +7,8 @@ module.exports.registerPatient = async (req, res) => {
     const patient = await register({ ...body, userId });
     return res.status(CREATED).json(patient);
   } catch (err) {
+    console.error(err);
+
     return res.status(err.code).json({ message: err.message });
   }
 };
