@@ -1,6 +1,7 @@
 const ApiError = require('../../error/apiError');
 const { INEXISTING_PATIENT, USERID_DOES_NOT_MATCH } = require('../../error/msgCodeError');
 const { updatePatient: update, findPatientById } = require('../../models/patient');
+const { registerFinances } = require('../../models/finances');
 const { convertOneDate } = require('../utilities/workingWithDates');
 
 module.exports.updatePatient = async (patientId, payload) => {
@@ -12,6 +13,16 @@ module.exports.updatePatient = async (patientId, payload) => {
   if (userId !== payload.userId) throw new ApiError(USERID_DOES_NOT_MATCH);
 
   const updatedAt = new Date().toISOString();
+
+  const { prevTotalPrice, doneTotalPrice } = payload;
+
+  await registerFinances({
+    patientId,
+    ...payload.userId,
+    prevTotalPrice,
+    doneTotalPrice,
+    createdAt: updatedAt,
+  });
 
   await update(patientId, { ...payload, updatedAt });
 
