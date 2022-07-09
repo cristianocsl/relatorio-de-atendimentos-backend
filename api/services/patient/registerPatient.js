@@ -46,7 +46,6 @@ module.exports.registerPatient = async (payload) => {
     prevTotalPrice,
     doneTotalPrice,
     createdAt,
-    updatedAt: createdAt,
   });
 
   return {
