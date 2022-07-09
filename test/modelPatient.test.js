@@ -15,8 +15,8 @@ describe('Testes de verificação da camada model de pacientes', function () {
   const payload = {
     patient: 'Maria',
     neighborhood: 'Farol',
-    status: 'Ativo',
-    priority: 'Urgente',
+    status: 'OK',
+    activeService: 'Sim',
     days: [1, 4],
     serviceGoal: {
       weekly: 3,
