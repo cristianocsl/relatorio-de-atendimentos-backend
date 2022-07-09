@@ -1,7 +1,7 @@
-const connection = require('../connection');
+const { getFinances } = require('./getFinances');
+const { registerFinances } = require('./registerFinances');
 
-module.exports.registerFinances = async (payload) => {
-  const db = await connection();
-  const { insertedId } = await db.collection('finances').insertOne(payload);
-  return { _id: insertedId };
+module.exports = {
+  getFinances,
+  registerFinances,
 };
