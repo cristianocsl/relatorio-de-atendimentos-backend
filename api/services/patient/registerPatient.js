@@ -22,13 +22,13 @@ module.exports.registerPatient = async (payload) => {
   const prevTotalPrice = unitPrice * monthly;
   const doneTotalPrice = unitPrice * monthlyDone;
 
-  const status = payload.status || 'Ativo';
-  const priority = payload.priority || 'Normal';
+  const status = payload.status || 'OK';
+  const activeService = payload.activeService || 'Sim';
   const createdAt = new Date().toISOString();
   const myNewPayload = {
     ...payload,
     status,
-    priority,
+    activeService,
     createdAt,
     prevTotalPrice,
     doneTotalPrice,
