@@ -45,6 +45,7 @@ module.exports.registerPatient = async (payload) => {
     ...payload.useId,
     prevTotalPrice,
     doneTotalPrice,
+    ...payload.healthInsurance,
     createdAt,
   });
 
