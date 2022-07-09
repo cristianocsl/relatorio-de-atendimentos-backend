@@ -3,6 +3,7 @@ const { MongoClient } = require('mongodb');
 const { MongoMemoryServer } = require('mongodb-memory-server');
 
 const { registerFinances, getFinances } = require('../api/models/finances');
+const { register } = require('../api/models/user');
 
 describe('Testes de verificação da camada model de finanças', function () {
   let connectionMock;
@@ -11,25 +12,11 @@ describe('Testes de verificação da camada model de finanças', function () {
   const payload = {
     patientId: '8c9f9f8f9f9f9f9f9f9f9f87',
     userId: '6c9f9f8f9f9f9f9f9f9f9f96',
-    status: 'OK',
-    activeService: 'Sim',
-    days: [1, 4],
-    serviceGoal: {
-      weekly: 3,
-      monthly: 12,
-    },
-    servicePerformed: {
-      weekly: 0,
-      monthly: 0,
-    },
-    servicePending: {
-      weekly: 0,
-      monthly: 0,
-    },
+    prevTotalPrice: '',
+    doneTotalPrice: '',
     healthInsurance: 'saude & suporte',
     unitPrice: 40.00,
     totalPrice: 0,
-    evolution: '',
   };
   
   beforeAll(async function () {
@@ -63,7 +50,14 @@ describe('Testes de verificação da camada model de finanças', function () {
 
   describe('- getFinances: ao buscar todos dados de finanças de um usuário:', function () {
     test('- retorna um array com todas as finanças', async function () {
-      const { _id: userId } = response;
+      const { _id: userId } = await register({
+        name: 'Usuário 1',
+        email: 'usuario_1@email.com',
+        password: '123456',
+      });
+
+      await registerFinances({ ...payload, userId });
+
       const result = await getFinances(userId);
       expect(result).toHaveLength(1);
     });
