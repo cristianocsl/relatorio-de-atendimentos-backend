@@ -17,6 +17,8 @@ module.exports.registerPatient = async (payload) => {
     unitPrice,
     serviceGoal: { monthly, weekly },
     servicePerformed: { monthly: monthlyDone, weekly: weeklyDone },
+    healthInsurance,
+    userId,
    } = payload;
 
   const prevTotalPrice = unitPrice * monthly;
@@ -42,10 +44,10 @@ module.exports.registerPatient = async (payload) => {
   
   await registerFinances({
     patientId,
-    ...payload.useId,
+    userId,
     prevTotalPrice,
     doneTotalPrice,
-    ...payload.healthInsurance,
+    healthInsurance,
     createdAt,
   });
 
