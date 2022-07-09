@@ -3,8 +3,8 @@ const { EXISTING_PATIENT, EMPTY_BODY } = require('../../error/msgCodeError');
 
 const { convertOneDate } = require('../utilities/workingWithDates');
 
-const { registerPatient: register } = require('../../models/patient');
-const { findPatient } = require('../../models/patient');
+const { registerPatient: register, findPatient } = require('../../models/patient');
+const { registerFinances } = require('../../models/finances');
 
 module.exports.registerPatient = async (payload) => {
   if (!payload.patient) throw new ApiError(EMPTY_BODY);
@@ -37,8 +37,17 @@ module.exports.registerPatient = async (payload) => {
       monthly: monthly - monthlyDone,
     },
   };
-
-  await register(myNewPayload);
+  
+  const { _id: patientId } = await register(myNewPayload);
+  
+  await registerFinances({
+    patientId,
+    ...payload.useId,
+    prevTotalPrice,
+    doneTotalPrice,
+    createdAt,
+    updatedAt: createdAt,
+  });
 
   return {
     ...myNewPayload,
