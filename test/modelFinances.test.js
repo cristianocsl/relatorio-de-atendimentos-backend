@@ -2,9 +2,9 @@ const sinon = require('sinon');
 const { MongoClient } = require('mongodb');
 const { MongoMemoryServer } = require('mongodb-memory-server');
 
-const { registerFinances } = require('../api/models/finances');
+const { registerFinances, getFinances } = require('../api/models/finances');
 
-describe('Testes de verificação da camada model de pacientes', function () {
+describe('Testes de verificação da camada model de finanças', function () {
   let connectionMock;
   let response;
   
@@ -58,6 +58,14 @@ describe('Testes de verificação da camada model de pacientes', function () {
       const { _id: idValue } = response;
       
       expect(response).toHaveProperty('_id', idValue);
+    });
+  });
+
+  describe('- getFinances: ao buscar todos dados de finanças de um usuário:', function () {
+    test('- retorna um array com todas as finanças', async function () {
+      const { _id: userId } = response;
+      const result = await getFinances(userId);
+      expect(result).toHaveLength(1);
     });
   });
 });
