@@ -19,12 +19,12 @@ module.exports.registerPatient = async (payload) => {
     servicePerformed: { monthly: monthlyDone, weekly: weeklyDone },
     healthInsurance,
     userId,
+    status,
    } = payload;
 
   const prevTotalPrice = unitPrice * monthly;
   const doneTotalPrice = unitPrice * monthlyDone;
 
-  const status = payload.status || '!!!';
   const activeService = payload.activeService || 'Sim';
   const createdAt = new Date().toISOString();
   const myNewPayload = {
