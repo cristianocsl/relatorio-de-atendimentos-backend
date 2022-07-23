@@ -2,6 +2,7 @@ const { OK } = require('http-status-codes').StatusCodes;
 const { getAllPatientsFromUserId: getAll } = require('../../services/patient');
 
 module.exports.getAllPatientsFromUserId = async (req, res) => {
+  console.log(req.connection.remoteAddress);
   const { _id: userId } = req.user;
   try {
     const patients = await getAll(userId);
