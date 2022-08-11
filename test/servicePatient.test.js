@@ -83,8 +83,8 @@ describe('Testes da camada service: registro, atualização e busca de paciente:
     test('retorna a chave "neighborhood"', async function () {
       expect(response).toHaveProperty('neighborhood');
     });
-    test('retorna a chave "status"', async function () {
-      expect(response).toHaveProperty('status');
+    test('retorna a chave "schedule"', async function () {
+      expect(response).toHaveProperty('schedule');
     });
     test('retorna a chave "activeService"', async function () {
       expect(response).toHaveProperty('activeService');
