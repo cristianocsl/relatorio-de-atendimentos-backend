@@ -14,7 +14,22 @@ module.exports.updatePatient = async (patientId, payload) => {
 
   const updatedAt = new Date().toISOString();
 
-  const { prevTotalPrice, doneTotalPrice } = payload;
+  const {
+    serviceGoal: { monthly, weekly },
+    servicePerformed: { monthly: monthlyDone, weekly: weeklyDone },
+    prevTotalPrice,
+    doneTotalPrice,
+   } = payload;
+
+  const myNewPayload = {
+    ...payload,
+    prevTotalPrice,
+    doneTotalPrice,
+    servicePending: {
+      weekly: weekly - weeklyDone,
+      monthly: monthly - monthlyDone,
+    },
+  };
 
   await registerFinances({
     patientId,
@@ -25,7 +40,9 @@ module.exports.updatePatient = async (patientId, payload) => {
     createdAt: updatedAt,
   });
 
-  await update(patientId, { ...payload, updatedAt });
+  console.log(myNewPayload, payload);
 
-  return { ...payload, userId, _id, updatedAt: convertOneDate(updatedAt) };
+  await update(patientId, { ...myNewPayload, updatedAt });
+
+  return { ...myNewPayload, userId, _id, updatedAt: convertOneDate(updatedAt) };
 };

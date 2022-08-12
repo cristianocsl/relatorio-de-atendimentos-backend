@@ -16,8 +16,8 @@ describe('Testando a rota /registerPatient:', function () {
     patient: 'Maria',
     days: [1, 4],
     serviceGoal: {
-      weekly: 0,
-      monthly: 0,
+      weekly: 3,
+      monthly: 12,
     },
     servicePerformed: {
       weekly: 0,
@@ -26,6 +26,10 @@ describe('Testando a rota /registerPatient:', function () {
     healthInsurance: 'saude & suporte',
     unitPrice: 40.00,
     evolution: '',
+    prevTotalPrice: 0,
+    doneTotalPrice: 0,
+    servicePending: { weekly: 3, monthly: 12 },
+
   };
 
   beforeAll(async function () {
@@ -86,7 +90,7 @@ describe('Testando a rota /registerPatient:', function () {
       .send({
         ...payload,
         serviceGoal: { weekly: 3, monthly: 12 },
-        servicePerformed: { weekly: 1, monthly: 0 },
+        servicePerformed: { weekly: 1, monthly: 1 },
       })
       .set('authorization', recivedToken)
       .set('params', { patientId });
@@ -101,7 +105,8 @@ describe('Testando a rota /registerPatient:', function () {
       expect(bodyInformations).toStrictEqual({
         ...payload,
         serviceGoal: { weekly: 3, monthly: 12 },
-        servicePerformed: { weekly: 1, monthly: 0 },
+        servicePerformed: { weekly: 1, monthly: 1 },
+        servicePending: { weekly: 2, monthly: 11 },
       });
     });
 
