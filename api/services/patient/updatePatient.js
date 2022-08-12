@@ -40,8 +40,6 @@ module.exports.updatePatient = async (patientId, payload) => {
     createdAt: updatedAt,
   });
 
-  console.log(myNewPayload, payload);
-
   await update(patientId, { ...myNewPayload, updatedAt });
 
   return { ...myNewPayload, userId, _id, updatedAt: convertOneDate(updatedAt) };
