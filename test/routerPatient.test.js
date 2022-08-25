@@ -111,7 +111,7 @@ describe('Testando a rota /registerPatient:', function () {
     });
 
     test('- retorna uma mensagem de sucesso', async function () {
-      expect(response.body.message).toStrictEqual('Paciente atualizado com sucesso!');
+      expect(response.body.message).toStrictEqual('Dados atualizados com sucesso!');
     });
   });
 

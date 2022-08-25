@@ -36,7 +36,7 @@ module.exports.updatePatient = async (patientId, payload) => {
     ...payload.userId,
     prevTotalPrice,
     doneTotalPrice,
-    ...payload.healthInsurance,
+    healthInsurance: payload.healthInsurance,
     createdAt: updatedAt,
   });
 
