@@ -33,7 +33,8 @@ module.exports.updatePatient = async (patientId, payload) => {
 
   await registerFinances({
     patientId,
-    ...payload.userId,
+    patient: patient.patient,
+    userId,
     prevTotalPrice,
     doneTotalPrice,
     healthInsurance: payload.healthInsurance,
