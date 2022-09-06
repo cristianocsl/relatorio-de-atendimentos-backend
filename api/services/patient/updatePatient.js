@@ -18,11 +18,11 @@ module.exports.updatePatient = async (patientId, payload) => {
     unitPrice,
     serviceGoal: { monthly, weekly },
     servicePerformed: { monthly: monthlyDone, weekly: weeklyDone },
-    prevTotalPrice,
-    doneTotalPrice,
+    prevTotalPrice: prevTotalPriceToNumber,
    } = payload;
 
-  const updateDoneTotalPrice = unitPrice * monthlyDone;
+  const doneTotalPrice = +(unitPrice * monthlyDone).toFixed(2);
+  const prevTotalPrice = +prevTotalPriceToNumber.toFixed(2);
 
   const myNewPayload = {
     ...payload,
@@ -39,7 +39,7 @@ module.exports.updatePatient = async (patientId, payload) => {
     patient: patient.patient,
     userId,
     prevTotalPrice,
-    doneTotalPrice: updateDoneTotalPrice,
+    doneTotalPrice,
     healthInsurance: payload.healthInsurance,
     createdAt: updatedAt,
   });
