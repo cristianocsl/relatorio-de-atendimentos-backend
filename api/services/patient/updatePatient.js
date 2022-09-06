@@ -15,11 +15,14 @@ module.exports.updatePatient = async (patientId, payload) => {
   const updatedAt = new Date().toISOString();
 
   const {
+    unitPrice,
     serviceGoal: { monthly, weekly },
     servicePerformed: { monthly: monthlyDone, weekly: weeklyDone },
     prevTotalPrice,
     doneTotalPrice,
    } = payload;
+
+  const updateDoneTotalPrice = unitPrice * monthlyDone;
 
   const myNewPayload = {
     ...payload,
@@ -36,7 +39,7 @@ module.exports.updatePatient = async (patientId, payload) => {
     patient: patient.patient,
     userId,
     prevTotalPrice,
-    doneTotalPrice,
+    doneTotalPrice: updateDoneTotalPrice,
     healthInsurance: payload.healthInsurance,
     createdAt: updatedAt,
   });
