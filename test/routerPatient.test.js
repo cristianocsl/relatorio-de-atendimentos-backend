@@ -107,6 +107,7 @@ describe('Testando a rota /registerPatient:', function () {
         serviceGoal: { weekly: 3, monthly: 12 },
         servicePerformed: { weekly: 1, monthly: 1 },
         servicePending: { weekly: 2, monthly: 11 },
+        doneTotalPrice: 40,
       });
     });
 
