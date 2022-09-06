@@ -27,7 +27,7 @@ describe('Testando a rota /registerPatient:', function () {
     unitPrice: 40.00,
     evolution: '',
     prevTotalPrice: 0,
-    doneTotalPrice: 0,
+    doneTotalPrice: 40.00,
     servicePending: { weekly: 3, monthly: 12 },
 
   };
@@ -107,7 +107,7 @@ describe('Testando a rota /registerPatient:', function () {
         serviceGoal: { weekly: 3, monthly: 12 },
         servicePerformed: { weekly: 1, monthly: 1 },
         servicePending: { weekly: 2, monthly: 11 },
-        doneTotalPrice: 40,
+        doneTotalPrice: +40.00.toFixed(2),
       });
     });
 
